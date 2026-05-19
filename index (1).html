@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Kontrolny z Matematyki - Klasa 8</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            border-top: 8px solid #2c3e50;
+        }
+        h1 { text-align: center; color: #2c3e50; }
+        h2 { color: #2980b9; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-top: 40px; }
+        
+        .task-card {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 5px solid #bdc3c7;
+        }
+        .task-text { font-weight: 500; font-size: 1.1em; margin-bottom: 10px; }
+        
+        .input-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            flex-grow: 1;
+            max-width: 300px;
+        }
+        
+        button {
+            padding: 10px 15px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-hint { background: #f1c40f; color: #000; }
+        .btn-hint:hover { background: #f39c12; }
+        
+        .hint-text {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff9e6;
+            border-left: 3px solid #f1c40f;
+            font-size: 0.9em;
+        }
+
+        #start-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal-content {
+            background: white; padding: 40px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px;
+        }
+        .modal-content input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .btn-start { background: #27ae60; color: white; width: 100%; font-size: 1.1em; }
+
+        .finish-container { text-align: center; margin-top: 40px; padding: 30px; background: #fff; border-radius: 15px; }
+        .btn-finish { background: #e74c3c; color: white; font-size: 1.3em; padding: 20px 40px; }
+        
+        #results-display { display: none; margin-top: 20px; padding: 20px; background: #d4edda; border-radius: 10px; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+
+<div id="start-modal">
+    <div class="modal-content">
+        <h2>📝 Test Matematyczny</h2>
+        <p>Wpisz swoje dane, aby rozpocząć:</p>
+        <input type="text" id="student-name" placeholder="Imię i Nazwisko" required>
+        <input type="text" id="student-class" placeholder="Klasa (np. 8B)" required>
+        <button class="btn-start" onclick="startTest()">Rozpocznij Test</button>
+        <p id="modal-error" style="color: red; display: none; margin-top: 10px;">Wypełnij oba pola!</p>
+    </div>
+</div>
+
+<div id="app-content" style="display:none;">
+    <div class="header-container">
+        <h1>Kontrola Wiadomości - Klasa 8</h1>
+        <p>Powodzenia! Rozwiąż wszystkie zadania. Wyniki zostaną przesłane do nauczyciela.</p>
+    </div>
+
+    <div id="quiz-form">
+        <div id="tasks-container"></div>
+    </div>
+
+    <div class="finish-container">
+        <h2 id="finish-status">Gotowy?</h2>
+        <button class="btn-finish" id="btn-submit" onclick="submitTest()">Zakończ i wyślij wyniki 📧</button>
+        <div id="results-display"></div>
+    </div>
+</div>
+
+<script>
+    let studentName = "";
+    let studentClass = "";
+    let hintsUsed = {};
+
+    const tasks = [
+        { section: "Cyfry Rzymskie", q: "Zapisz liczbę arabską: CD", a: ["400"], hint: "C=100, D=500. Mniejsza przed większą oznacza odejmowanie." },
+        { section: "Cyfry Rzymskie", q: "Zapisz liczbę arabską: XL", a: ["40"], hint: "X=10, L=50." },
+        { section: "Cyfry Rzymskie", q: "Zapisz rzymskimi: 900", a: ["CM"], hint: "1000 - 100." },
+        { section: "Cyfry Rzymskie", q: "Zapisz rzymskimi: 13", a: ["XIII"] },
+        { section: "Cyfry Rzymskie", q: "Która liczba jest większa: CM czy DCC?", a: ["CM"], hint: "CM=900, DCC=700." },
+        
+        { section: "Kwadraty i sześciany", q: "Oblicz: 14^2", a: ["196"] },
+        { section: "Kwadraty i sześciany", q: "Oblicz: 30^2", a: ["900"] },
+        { section: "Kwadraty i sześciany", q: "Oblicz: 6^3", a: ["216"], hint: "6 * 6 * 6" },
+        { section: "Kwadraty i sześciany", q: "Co jest większe: 9^2 czy 4^3?", a: ["9^2"], hint: "9^2=81, 4^3=64." },
+
+        { section: "Potęgi", q: "Ile wynosi 157^0?", a: ["1"] },
+        { section: "Potęgi", q: "Zapisz jako jedną potęgę: a^5 * a^3", a: ["a^8"], hint: "Przy mnożeniu potęg o tych samych podstawach wykładniki dodajemy." },
+        { section: "Potęgi", q: "Oblicz wartość: 2^-1", a: ["1/2", "0.5"], hint: "Ujemny wykładnik odwraca liczbę." },
+        { section: "Potęgi", q: "Uprość wyrażenie: (6^2)^3", a: ["6^6"], hint: "Wykładniki mnożymy." },
+        { section: "Potęgi", q: "Rozwiąż: 10^8 : 10^5", a: ["10^3", "1000"], hint: "Przy dzieleniu wykładniki odejmujemy." },
+
+        { section: "Pierwiastki", q: "Oblicz: sqrt(2) * sqrt(8)", a: ["4"], hint: "Pomnóż liczby pod pierwiastkiem: sqrt(16)." },
+        { section: "Pierwiastki", q: "Uprość: sqrt(50) / sqrt(2)", a: ["5"], hint: "sqrt(50/2) = sqrt(25)." },
+        { section: "Pierwiastki", q: "Oblicz przybliżenie: sqrt(2) + sqrt(3)", a: ["3.14", "3,14"], hint: "Przyjmij sqrt(2) ≈ 1.41 i sqrt(3) ≈ 1.73." },
+        { section: "Pierwiastki", q: "Czy to prawda, że pierwiastek 3-go stopnia z 8 wynosi 2? (Tak/Nie)", a: ["Tak"] },
+
+        { section: "Kolejność działań", q: "Oblicz: (-1)^2", a: ["1"] },
+        { section: "Kolejność działań", q: "Oblicz: -1^2", a: ["-1"], hint: "Potęgowanie jest przed minusem (chyba że jest nawias)." },
+        { section: "Kolejność działań", q: "Oblicz: 10 - 2 * 3 + 4", a: ["8"] },
+        
+        { section: "Wyrażenia algebraiczne", q: "Liczba o 7 mniejsza od x", a: ["x-7"] },
+        { section: "Wyrażenia algebraiczne", q: "Liczba o 40% większa od y", a: ["1.4y", "1,4y"], hint: "y + 0.4y = 1.4y" },
+        { section: "Wyrażenia algebraiczne", q: "Zapisz liczbę dwucyfrową (dziesiątki k, jedności m)", a: ["10k+m"] },
+        { section: "Wyrażenia algebraiczne", q: "Rozwiń nawias: 3(2x + 5)", a: ["6x+15"] },
+        { section: "Wyrażenia algebraiczne", q: "Usuń nawiasy: -(a - 4b + 2)", a: ["-a+4b-2"] },
+
+        { section: "Równania", q: "Jak nazywamy równanie bez rozwiązań?", a: ["sprzeczne"] },
+        { section: "Równania", q: "Rozwiąż x + 5 = 2x - 2", a: ["x=7", "7"] },
+        { section: "Równania", q: "Ile rozwiązań ma równanie tożsamościowe?", a: ["nieskończenie wiele", "nieskończoność"] },
+
+        { section: "Skala i Procenty", q: "1 cm na mapie 1:5000 to ile cm w terenie?", a: ["5000"] },
+        { section: "Skala i Procenty", q: "Zamień 15% na ułamek zwykły", a: ["15/100", "3/20"] },
+        { section: "Skala i Procenty", q: "Ile metrów w terenie to 2 cm na mapie 1:1000?", a: ["20"] },
+
+        { section: "Jednostki", q: "5 km na metry", a: ["5000"] },
+        { section: "Jednostki", q: "1 ha na m^2", a: ["10000"] },
+        { section: "Jednostki", q: "3 kg na dekagramy (dag)", a: ["300"] },
+        { section: "Jednostki", q: "Pół godziny to ile sekund?", a: ["1800"] },
+
+        { section: "Geometria", q: "Kąt między 90 a 180 stopni to kąt...", a: ["rozwarty"] },
+        { section: "Geometria", q: "Kąt przyległy do 70 stopni ma...", a: ["110"] },
+        { section: "Geometria", q: "Wzór na wysokość trójkąta równobocznego o boku a", a: ["a*sqrt(3)/2", "(a*sqrt(3))/2"] },
+        { section: "Geometria", q: "Pole kwadratu o przekątnej d=6", a: ["18"], hint: "P = d^2 / 2" },
+        { section: "Geometria", q: "Przeciwprostokątna trójkąta o przyprostokątnych 3 i 4", a: ["5"] },
+        { section: "Bryły", q: "Pole pow. sześcianu o krawędzi a=3", a: ["54"], hint: "P = 6 * a^2" },
+        { section: "Bryły", q: "Objętość prostopadłościanu 2 x 3 x 10", a: ["60"] },
+        { section: "Prawdopodobieństwo", q: "Wylosowanie białej kuli (2 białe, 3 czarne)", a: ["2/5", "0.4", "0,4"] }
+    ];
+
+    function startTest() {
+        studentName = document.getElementById("student-name").value.trim();
+        studentClass = document.getElementById("student-class").value.trim();
+        if(studentName === "" || studentClass === "") {
+            document.getElementById("modal-error").style.display = "block";
+            return;
+        }
+        document.getElementById("start-modal").style.display = "none";
+        document.getElementById("app-content").style.display = "block";
+        renderTasks();
+    }
+
+    function renderTasks() {
+        const container = document.getElementById("tasks-container");
+        let currentSection = "";
+        
+        tasks.forEach((t, i) => {
+            if(t.section !== currentSection) {
+                currentSection = t.section;
+                const secTitle = document.createElement("h2");
+                secTitle.innerText = currentSection;
+                container.appendChild(secTitle);
+            }
+            
+            const card = document.createElement("div");
+            card.className = "task-card";
+            card.innerHTML = `
+                <div class="task-text">${i+1}. ${t.q}</div>
+                <div class="input-group">
+                    <input type="text" id="ans-${i}" placeholder="Twoja odpowiedź...">
+                    ${t.hint ? `<button class="btn-hint" onclick="showHint(${i})">Podpowiedź</button>` : ''}
+                </div>
+                <div id="hint-${i}" class="hint-text">💡 ${t.hint}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function showHint(index) {
+        document.getElementById(`hint-${index}`).style.display = "block";
+        hintsUsed[index] = true;
+    }
+
+    function submitTest() {
+        let score = 0;
+        let report = `UCZEŃ: ${studentName}\nKLASA: ${studentClass}\n\n`;
+        
+        tasks.forEach((t, i) => {
+            const userAns = document.getElementById(`ans-${i}`).value.trim().toLowerCase().replace(",", ".");
+            const isCorrect = t.a.some(correct => correct.toLowerCase().replace(",", ".") === userAns);
+            const hintWasUsed = hintsUsed[i] ? "TAK" : "NIE";
+            
+            if(isCorrect) score++;
+            
+            report += `Zadanie ${i+1} (${t.section}):\n`;
+            report += `- Odpowiedź: ${userAns}\n`;
+            report += `- Poprawnie: ${isCorrect ? "TAK" : "NIE"}\n`;
+            report += `- Użyto podpowiedzi: ${hintWasUsed}\n\n`;
+        });
+
+        const finalScoreText = `Twój wynik: ${score} / ${tasks.length}`;
+        report += `WYNIK KOŃCOWY: ${finalScoreText}`;
+
+        // Wysyłka Web3Forms
+        const btn = document.getElementById("btn-submit");
+        btn.disabled = true;
+        btn.innerText = "Wysyłanie...";
+
+        fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                access_key: "99356b6c-ab77-4ea0-a3cb-99560d40fafa",
+                subject: `TEST 8 KLASA: ${studentName} (${studentClass})`,
+                message: report
+            })
+        }).then(response => {
+            if(response.status === 200) {
+                document.getElementById("finish-status").innerText = "Wyniki wysłane!";
+                btn.style.display = "none";
+                const resDiv = document.getElementById("results-display");
+                resDiv.style.display = "block";
+                resDiv.innerText = `Dziękujemy! Twoje odpowiedzi zostały przesłane do nauczyciela. ${finalScoreText}`;
+            } else {
+                alert("Błąd wysyłania. Spróbuj jeszcze raz.");
+                btn.disabled = false;
+                btn.innerText = "Spróbuj ponownie";
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
