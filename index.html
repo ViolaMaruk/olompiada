@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szkolny Konkurs Matematyczny - Klasa 4</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        .header-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        h1 {
+            text-align: center; color: #2c3e50; border-bottom: 2px solid #3498db;
+            padding-bottom: 10px; margin-top: 0; margin-bottom: 15px;
+        }
+        .description { text-align: center; font-size: 1.1em; color: #555; margin: 0; }
+        
+        .task-card {
+            background: #fff; padding: 20px 25px; margin-bottom: 20px;
+            border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border-left: 6px solid #3498db; transition: all 0.3s;
+        }
+        .task-card.correct-bg { background-color: #d4edda; border-left-color: #28a745; }
+        .task-card.incorrect-bg { background-color: #f8d7da; border-left-color: #dc3545; }
+        .task-text { font-size: 1.1em; margin-bottom: 15px; }
+        
+        .input-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        input[type="text"] {
+            padding: 10px; font-size: 1em; border: 2px solid #e2e8f0;
+            border-radius: 6px; flex-grow: 1; max-width: 300px; outline: none;
+        }
+        input[type="text"]:focus { border-color: #3498db; }
+        
+        button {
+            background-color: #3498db; color: white; border: none; padding: 10px 20px;
+            font-size: 1em; border-radius: 6px; cursor: pointer; transition: 0.2s;
+        }
+        button:hover { background-color: #2980b9; }
+        button.btn-hint { background-color: #f39c12; }
+        button.btn-hint:hover { background-color: #d68910; }
+        button.btn-answer { background-color: #9b59b6; }
+        button.btn-answer:hover { background-color: #8e44ad; }
+        
+        .feedback { font-weight: bold; margin-left: 10px; }
+        .correct { color: #1e8449; }
+        .incorrect { color: #c0392b; }
+        .hint-text { display: none; margin-top: 15px; padding: 12px; background-color: #fff3cd; border-left: 4px solid #ffc107; font-style: italic; color: #856404; border-radius: 0 6px 6px 0; }
+
+        /* STILI DLA STARTOWEGO OKNA I KNOPKI OTPRAVKI */
+        #start-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); display: flex; justify-content: center;
+            align-items: center; z-index: 1000;
+        }
+        .modal-content {
+            background: white; padding: 40px; border-radius: 12px; text-align: center;
+            max-width: 400px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .modal-content input {
+            width: 100%; margin-bottom: 15px; padding: 10px; box-sizing: border-box; text-align: center;
+            font-size: 1.1em; border: 2px solid #e2e8f0; border-radius: 6px;
+        }
+        .modal-content button { width: 100%; font-size: 1.1em; padding: 12px; background-color: #27ae60;}
+        .modal-content button:hover { background-color: #2ecc71;}
+        
+        #app-content { display: none; }
+        
+        .finish-container {
+            text-align: center; background: rgba(255,255,255,0.95); padding: 30px;
+            border-radius: 12px; margin-top: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .btn-finish { background-color: #e74c3c; font-size: 1.2em; padding: 15px 30px; }
+        .btn-finish:hover { background-color: #c0392b; }
+    </style>
+</head>
+<body>
+
+    <div id="start-modal">
+        <div class="modal-content">
+            <h2>Witaj! 👋</h2>
+            <p>Przed rozpoczęciem przygotowania wpisz swoje dane:</p>
+            <input type="text" id="student-name" placeholder="Imię i nazwisko" required>
+            <input type="text" id="student-class" placeholder="Klasa (np. 4A)" required>
+            <button onclick="startTest()">Rozpocznij trening</button>
+            <p id="modal-error" style="color: red; font-size: 0.9em; display: none;">Proszę wypełnić wszystkie pola!</p>
+        </div>
+    </div>
+
+    <div id="app-content">
+        <div class="header-container">
+            <h1>Szkolny Konkurs Matematyczny</h1>
+            <p class="description">Rozwiąż zadania przygotowawcze. Przeczytaj uważnie treść i wpisz odpowiedni wynik lub wyrażenie.</p>
+        </div>
+
+        <div id="tasks-container"></div>
+
+        <div class="finish-container">
+            <h2 id="finish-text">Skończyłeś cały trening? Wyślij wyniki do nauczyciela!</h2>
+            <button class="btn-finish" id="btn-submit" onclick="sendResults()">Wyślij wyniki 📧</button>
+        </div>
+    </div>
+
+    <script>
+        let currentStudent = "";
+        let currentClass = "";
+        let resultsData = {}; 
+        let userAttempts = {};
+
+        function startTest() {
+            const nameInput = document.getElementById("student-name").value.trim();
+            const classInput = document.getElementById("student-class").value.trim();
+            
+            if(nameInput === "" || classInput === "") {
+                document.getElementById("modal-error").style.display = "block";
+                return;
+            }
+            
+            currentStudent = nameInput;
+            currentClass = classInput;
+            
+            document.getElementById("start-modal").style.display = "none";
+            document.getElementById("app-content").style.display = "block";
+        }
+
+        // BAZA ZADAŃ DOPASOWANA DO OLIMPIADY (27 ZADAŃ)
+        const tasksData = [
+            // BLOK 1: Działania i terminy
+            { text: "Oblicz wynik działania: 72 - 12 : 3 + 4 * (17 - 9)", hint: "Pamiętaj o kolejności działań: najpierw nawias, potem dzielenie i mnożenie, na końcu dodawanie i odejmowanie.", answers: ["100"] },
+            { text: "W klasie jest 26 uczniów. Na lekcji wychowania fizycznego należy podzielić ich na drużyny po 4 osoby. Ilu uczniów pozostanie bez drużyny (reszta z dzielenia)?", hint: "Wykonaj dzielenie z resztą liczby 26 przez 4. Podaj tylko samą resztę.", answers: ["2"] },
+            { text: "Zapisz в postaci rownania: Różnicę liczb 100 i 28 zmniejszono 8 razy i otrzymano wynik x.", hint: "Różnica to odejmowanie, zmniejszono 8 razy to dzielenie. Całość przyrównaj do x.", answers: ["(100-28):8=x", "(100-28)/8=x", "x=(100-28):8", "x=(100-28)/8", "9=x", "x=9"] },
+            { text: "Zapisz w postaci wyrażenia i oblicz: Do iloczynu liczb 9 i 6 dodaj iloraz liczby 35 przez 5.", hint: "Iloczyn to mnożenie (9*6), iloraz to dzielenie (35:5). Dodaj te dwa wyniki do siebie.", answers: ["61"] },
+            { text: "Wstaw odpowiedni znak działania (+, -, * lub :) w miejsce gwiazdki, aby równość była prawdziwa: 48 * (12 - 4) = 6", hint: "Najpierw oblicz wynik w nawiasie (12 - 4 = 8). Jakie działanie musisz wykonać na liczbach 48 i 8, aby otrzymać 6?", answers: [":", "/"] },
+
+            // BLOK 2: Znaki rzymskie
+            { text: "Zapisz cyframi arabskimi liczbę rzymską: XXIV", hint: "X to 10, a IV to 4. Połącz te wartości.", answers: ["24"] },
+            { text: "Zapisz znakami rzymskimi liczbę: 34", hint: "34 składa się z trzech dziesiątek (XXX) i czwórki (IV). Używaj wielkich liter.", answers: ["XXXIV"] },
+            { text: "Jaka liczba ukrywa się pod znakiem zapytania? Zapisz odpowiedź liczbą rzymską: XXXV - ? = XI", hint: "Zamień liczby na arabskie: 35 - ? = 11. Znajdź niewiadomą i zapisz ją ponownie jako liczbę rzymską.", answers: ["XXIV"] },
+            { text: "Równanie ułożone z zapałek jest błędne: XI - V = IV. Przełóż tylko jedną zapałkę, aby równanie stało się prawdziwe. Zapisz nowe poprawne równanie (użyj znaku + lub =).", hint: "Spróbuj zamienić znak minus na plus, zabierając jedną zapałkę z liczby XI.", answers: ["v+v=x", "vi+iv=x"] },
+
+            // BLOK 3: Zamiana jednostek
+            { text: "Wstaw odpowiedni znak (<, > lub =) w miejsce kropek: 3 kg 4 dag .... 340 dag", hint: "Pamiętaj, że 1 kg = 100 dag. Zatem 3 kg 4 dag to ile dekagramów?", answers: ["<"] },
+            { text: "Mama kupiła 30 dag sera, 50 dag kiełbasy i 1 kg jabłek. Ile gramów (g) ważą zakupy razem?", hint: "Zamień wszystko na gramy: 1 dag = 10 g, 1 kg = 1000 g. Potem dodaj wszystko do siebie.", answers: ["1800", "1800g"] },
+            { text: "Ania czytała książkę przez 120 minut. Ile to godzin?", hint: "Jedna godzina ma 60 minut. Podziel 120 przez 60.", answers: ["2", "2h", "2godziny"] },
+            { text: "Egzamin rozpoczął się o godzinie 11:45 i trwał dokładnie 90 minut. O której godzinie egzamin się zakończył? (Zapisz w formacie GG:MM)", hint: "90 minut to 1 godzina i 30 minut. Dodaj ten czas do godziny 11:45.", answers: ["13:15"] },
+
+            // BLOK 4: Geometria i skala
+            { text: "Obwód prostokąta wynosi 40 cm. Jego długość to 12 cm. Znajdź szerokość tego prostokąta (w cm).", hint: "Prostokąt ma dwie długości i dwie szerokości. Odejmij dwie długości od obwodu (40 - 24) i wynik podziel przez 2.", answers: ["8", "8cm"] },
+            { text: "Bok kwadratu ma długość 1 dm 2 cm. Oblicz obwód tego kwadratu w centymetrach.", hint: "Zamień bok na centymetry: 1 dm 2 cm = 12 cm. Kwadrat ma 4 równe boki, więc pomnóż wynik przez 4.", answers: ["48", "48cm"] },
+            { text: "Na stole ułożono w jednym rzędzie, ściśle obok siebie, 5 jednakowych monet. Promień jednej monety wynosi 12 mm. Jaką długość ma cały rząd monet (w mm)?", hint: "Uwaga, pułapka! Szerokość monety to jej średnica (dwa promienie), czyli 24 mm. Pomnóż to przez 5 monet.", answers: ["120", "120mm"] },
+            { text: "Na mapie w skali 1:200 długość płotu wynosi 5 cm. Ile metrów wynosi rzeczywista długość tego płotu?", hint: "Pomnóż 5 cm przez 200, aby otrzymać wynik w centymetrach (1000 cm). Następnie zamień centymetry na metry.", answers: ["10", "10m"] },
+
+            // BLOK 5: Średnia
+            { text: "Temperatura powietrza w ciągu czterech dni wynosiła odpowiednio: 12°C, 15°C, 18°C i 11°C. Oblicz średnią temperaturę z tych dni.", hint: "Dodaj wszystkie cztery temperatury do siebie, a następnie podziel otrzymaną sumę przez 4.", answers: ["14"] },
+            { text: "Piłkarz w 5 meczach zdobył następującą liczbę bramek: 2, 0, 1, 3, 4. Jaka jest jego średnia liczba bramek na mecz?", hint: "Pułapka! Dodaj wszystkie bramki (suma wynosi 10) i podziel przez liczbę WSZYSTKICH meczów, czyli przez 5 (mecz z zerem też się liczy!).", answers: ["2"] },
+            { text: "Średni wzrost dwóch krasnali wynosi 45 cm. Wzrost pierwszego z nich to 40 cm. Jaki wzrost ma drugi krasnal?", hint: "Skoro średnia dwóch wynosi 45 cm, to razem mają 45 * 2 = 90 cm. Odejmij wzrost pierwszego krasnala.", answers: ["50", "50cm"] },
+
+            // BLOK 6: Zadania logiczne
+            { text: "Prosta aleja o długości 30 metrów została obsadzona drzewami. Odległość między sąsiednimi drzewami wynosi 5 metrów. Ile drzew rośnie w tej alei, jeśli stoją one na samym jej początku i na samym końcu?", hint: "Podział 30 : 5 = 6 daje liczbę odstępów między drzewami. Drzew jest o jedno więcej niż odstępów.", answers: ["7"] },
+            { text: "Przecięcie rury na 3 części zajmuje robotnikowi 6 minut. Ile czasu zajmie mu przecięcie takiej samej rury na 4 części?", hint: "Aby mieć 3 części, trzeba zrobić 2 cięcia (jedno cięcie trwa 3 minuty). Aby mieć 4 części, trzeba wykonać 3 cięcia.", answers: ["9", "9min"] },
+            { text: "Pomyślałem pewną liczbę x. Pomnożyłem ją przez 3, od rezultatu odjąłem 5 i otrzymałem 22. Zapisz to równanie.", hint: "Pomnożenie x przez 3 to 3x. Oddejmij 5 i przyrównaj do 22.", answers: ["3x-5=22", "x*3-5=22", "22=3x-5"] },
+            { text: "Na podwórku chodzą króliki (4 nogi) i bażanty (2 nogi). Razem mają 10 głów i 28 nóg. Ile królików chodzi po podwórku?", hint: "Gdyby wszystkie zwierzęta były bażantami, miałyby 20 nóg. Mamy 8 dodatkowych nóg, podziel je po 2 na każdego królika.", answers: ["4"] },
+
+            // ZADANIA Z GWIAZDKĄ (*)
+            { text: "* [Zadanie Olimpijskie] Dzisiaj jest wtorek. Jaki dzień tygodnia będzie za 50 dni?", hint: "Podziel 50 przez 7 dni tygodnia. Sprawdź resztę z dzielenia i przesuń się o tyle dni do przodu od wtorku.", answers: ["środa", "sroda"] },
+            { text: "* [Zadanie Olimpijskie] Trzy jednakowe kwadraty, każdy o obwodzie 12 cm, ułożono obok siebie w jednym rzędzie tak, że powstał duży prostokąt. Oblicz obwód tego prostokąta.", hint: "Bok kwadratu to 12:4 = 3 cm. Nowy prostokąt ma wymiary 9 cm na 3 cm. Oblicz jego obwód.", answers: ["24", "24cm"] },
+            { text: "* [Zadanie Olimpijskie] Zapisz za pomocą znaków rzymskich liczbę: 99", hint: "Pułapka! Nie można zapisać tego jako IC. Zapisz oddzielnie 90 (XC) oraz 9 (IX).", answers: ["XCIX"] }
+        ];
+
+        const container = document.getElementById("tasks-container");
+
+        tasksData.forEach((task, index) => {
+            const taskNum = index + 1;
+            resultsData[taskNum] = "Nie rozwiązano"; 
+
+            const answersJson = JSON.stringify(task.answers).replace(/"/g, "'");
+            const firstAnswer = task.answers[0];
+
+            container.innerHTML += `
+                <div class="task-card" id="card${taskNum}">
+                    <div class="task-text"><strong>${taskNum}.</strong> ${task.text}</div>
+                    <div class="input-group">
+                        <input type="text" id="input${taskNum}" placeholder="Wpisz odpowiedź...">
+                        <button onclick="checkAnswer(${taskNum}, 'input${taskNum}', 'card${taskNum}', 'feedback${taskNum}', ${answersJson}, 'btn-answer${taskNum}')">Sprawdź</button>
+                        <button class="btn-hint" onclick="document.getElementById('hint${taskNum}').style.display='block'">Podpowiedź</button>
+                        
+                        <button class="btn-answer" id="btn-answer${taskNum}" style="display: none;" onclick="showAnswer(${taskNum}, 'input${taskNum}', '${firstAnswer}', 'card${taskNum}', 'feedback${taskNum}', 'btn-answer${taskNum}')">Odpowiedź</button>
+                        
+                        <span id="feedback${taskNum}" class="feedback"></span>
+                    </div>
+                    <div id="hint${taskNum}" class="hint-text">${task.hint}</div>
+                </div>
+            `;
+        });
+
+        function checkAnswer(taskNum, inputId, cardId, feedbackId, correctAnswers, btnAnswerId) {
+            let userInput = document.getElementById(inputId).value;
+            let feedbackEl = document.getElementById(feedbackId);
+            let cardEl = document.getElementById(cardId);
+            let btnAnswer = document.getElementById(btnAnswerId);
+            
+            cardEl.classList.remove("correct-bg", "incorrect-bg");
+
+            let normalized = userInput.replace(/\s+/g, '').toLowerCase().replace(',', '.');
+            if (normalized === "") return (feedbackEl.textContent = "Wpisz odpowiedź!", feedbackEl.className = "feedback incorrect");
+
+            if (userAttempts[inputId] === undefined) userAttempts[inputId] = new Set();
+
+            let isCorrect = correctAnswers.some(ans => ans.toLowerCase() === normalized || ans.toLowerCase().replace('.', ',') === normalized.replace('.', ','));
+
+            if (isCorrect) {
+                feedbackEl.textContent = "Dobrze!"; 
+                feedbackEl.className = "feedback correct"; 
+                cardEl.classList.add("correct-bg");
+                btnAnswer.style.display = "none";
+                
+                if(resultsData[taskNum] !== "Podglądał odpowiedź") {
+                    resultsData[taskNum] = "Samodzielnie";
+                }
+            } else {
+                if (userAttempts[inputId].has(userInput)) {
+                    feedbackEl.textContent = "Już podałeś taką odpowiedź. Spróbuj inną!";
+                } else {
+                    userAttempts[inputId].add(userInput);
+                    feedbackEl.textContent = "Spróbuj jeszcze raz.";
+                }
+                feedbackEl.className = "feedback incorrect"; 
+                cardEl.classList.add("incorrect-bg");
+                
+                if (userAttempts[inputId].size >= 2) {
+                    btnAnswer.style.display = "inline-block";
+                }
+            }
+        }
+
+        function showAnswer(taskNum, inputId, correctAnswer, cardId, feedbackId, btnAnswerId) {
+            document.getElementById(inputId).value = correctAnswer;
+            document.getElementById(cardId).classList.remove("incorrect-bg");
+            document.getElementById(cardId).classList.add("correct-bg");
+            document.getElementById(feedbackId).innerHTML = "Oto prawidłowa odpowiedź!";
+            document.getElementById(feedbackId).className = "feedback correct";
+            document.getElementById(btnAnswerId).style.display = "none";
+            
+            resultsData[taskNum] = "Podglądał odpowiedź";
+        }
+
+        function sendResults() {
+            let correctCount = 0; let hintCount = 0; let notSolvedCount = 0;
+            let detailedReport = "";
+            const totalTasks = tasksData.length;
+
+            for(let i=1; i<=totalTasks; i++) {
+                let inputId = 'input' + i;
+                let currentInputVal = document.getElementById(inputId).value.trim();
+                let attemptsSet = userAttempts[inputId];
+                let wrongAttemptsString = (attemptsSet && attemptsSet.size > 0) ? Array.from(attemptsSet).join(", ") : "";
+
+                if(resultsData[i] === "Samodzielnie") {
+                    correctCount++;
+                    if (wrongAttemptsString !== "") {
+                        detailedReport += `Zadanie ${i}: Samodzielnie (Błędy przed sukcesem: ${wrongAttemptsString} | Odpowiedź końcowa: ${currentInputVal})\n`;
+                    } else {
+                        detailedReport += `Zadanie ${i}: Samodzielnie (Odpowiedź: ${currentInputVal})\n`;
+                    }
+                }
+                else if(resultsData[i] === "Podglądał odpowiedź") {
+                    hintCount++;
+                    detailedReport += `Zadanie ${i}: Podglądał odpowiedź (Błędne próby ucznia: ${wrongAttemptsString || "brak, od razu nacisnął podpowiedź"})\n`;
+                }
+                else {
+                    notSolvedCount++;
+                    if (wrongAttemptsString !== "") {
+                        detailedReport += `Zadanie ${i}: Nie rozwiązano (Błędne próby: ${wrongAttemptsString})\n`;
+                    } else {
+                        detailedReport += `Zadanie ${i}: Nie rozwiązano (Pole puste)\n`;
+                    }
+                }
+            }
+
+            const finalMessage = `Uczeń: ${currentStudent}\nKlasa: ${currentClass}\n\nWYNIK GŁÓWNY:\n- Rozwiązane samodzielnie: ${correctCount} z ${totalTasks}\n- Z użyciem gotowej odpowiedzi: ${hintCount} z ${totalTasks}\n- Brak odpowiedzi: ${notSolvedCount} z ${totalTasks}\n\nSZCZEGÓŁY:\n${detailedReport}`;
+
+            const btnSubmit = document.getElementById("btn-submit");
+            btnSubmit.textContent = "Wysyłanie...";
+            btnSubmit.style.backgroundColor = "#7f8c8d";
+            btnSubmit.disabled = true;
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({
+                    access_key: "99356b6c-ab77-4ea0-a3cb-99560d40fafa",
+                    subject: `Wyniki konkursowe klasa 4: ${currentStudent} (${currentClass})`,
+                    from_name: "Trener Olimpijski klasa 4",
+                    message: finalMessage
+                })
+            })
+            .then(async (response) => {
+                if (response.status == 200) {
+                    document.getElementById("finish-text").innerText = "Udało się! Wyniki przygotowania zostały wysłane do nauczyciela. Możesz zamknąć stronę.";
+                    btnSubmit.style.display = "none";
+                } else {
+                    document.getElementById("finish-text").innerText = "Błąd wysyłania. Zgłoś to nauczycielowi.";
+                    btnSubmit.textContent = "Spróbuj ponownie";
+                    btnSubmit.disabled = false;
+                    btnSubmit.style.backgroundColor = "#e74c3c";
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                document.getElementById("finish-text").innerText = "Błąd połączenia. Sprawdź internet i spróbuj ponownie.";
+                btnSubmit.textContent = "Wyślij ponownie";
+                btnSubmit.disabled = false;
+                btnSubmit.style.backgroundColor = "#e74c3c";
+            });
+        }
+    </script>
+</body>
+</html>
