@@ -27,6 +27,17 @@
         }
         .description { text-align: center; font-size: 1.1em; color: #555; margin: 0; }
         
+        .section-header {
+            background: #2c3e50; color: #fff; padding: 15px 20px; 
+            margin-top: 40px; margin-bottom: 10px; border-radius: 8px;
+        }
+        .section-header h2 { margin: 0; font-size: 1.3em; }
+        .section-theory {
+            background: #eec15b3b; border-left: 4px solid #f39c12; 
+            padding: 12px 15px; margin-bottom: 20px; border-radius: 0 8px 8px 0;
+            font-size: 0.95em; color: #444;
+        }
+
         .task-card {
             background: #fff; padding: 20px 25px; margin-bottom: 20px;
             border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
@@ -101,7 +112,7 @@
     <div id="app-content">
         <div class="header-container">
             <h1>Szkolny Konkurs Matematyczny</h1>
-            <p class="description">Rozwiąż zadania przygotowawcze. Przeczytaj uważnie treść i wpisz odpowiedni wynik lub wyrażenie.</p>
+            <p class="description">Rozwiąż zadania przygotowawcze podzielone na tematy. Przeczytaj uważnie wskazówki teoretyczne przed każdą sekcją!</p>
         </div>
 
         <div id="tasks-container"></div>
@@ -134,73 +145,118 @@
             document.getElementById("app-content").style.display = "block";
         }
 
-        const tasksData = [
-            // BLOK 1: Działania i terminy
-            { text: "Oblicz wynik działania: 72 - 12 : 3 + 4 * (17 - 9)", hint: "Pamiętaj o kolejności działań: najpierw nawias, potem dzielenie i mnożenie, na końcu dodawanie i odejmowanie.", answers: ["100"] },
-            { text: "W klasie jest 26 uczniów. Na lekcji wychowania fizycznego należy podzielić ich na drużyny po 4 osoby. Ilu uczniów pozostanie bez drużyny (reszta z dzielenia)?", hint: "Wykonaj dzielenie z resztą liczby 26 przez 4. Podaj tylko samą resztę.", answers: ["2"] },
-            { text: "Zapisz w postaci równania: Różnicę liczb 100 i 28 zmniejszono 8 razy i otrzymano wynik x.", hint: "Różnica to odejmowanie, zmniejszono 8 razy to dzielenie. Całość przyrównaj do x.", answers: ["(100-28):8=x", "(100-28)/8=x", "x=(100-28):8", "x=(100-28)/8", "9=x", "x=9"] },
-            { text: "Zapisz w postaci wyrażenia i oblicz: Do iloczynu liczb 9 i 6 dodaj iloraz liczby 35 przez 5.", hint: "Iloczyn to mnożenie (9*6), iloraz to dzielenie (35:5). Dodaj te dwa wyniki do siebie.", answers: ["61"] },
-            { text: "Wstaw odpowiedni znak działania (+, -, * lub :) w miejsce gwiazdki, aby równość była prawdziwa: 48 * (12 - 4) = 6", hint: "Najpierw oblicz wynik w nawiasie (12 - 4 = 8). Jakie działanie musisz wykonać na liczbach 48 i 8, aby otrzymać 6?", answers: [":", "/"] },
-
-            // BLOK 2: Znaki rzymskie
-            { text: "Zapisz cyframi arabskimi liczbę rzymską: XXIV", hint: "X to 10, a IV to 4. Połącz te wartości.", answers: ["24"] },
-            { text: "Zapisz znakami rzymskimi liczbę: 34", hint: "34 składa się z trzech dziesiątek (XXX) i czwórki (IV). Używaj wielkich liter.", answers: ["XXXIV"] },
-            { text: "Jaka liczba ukrywa się pod znakiem zapytania? Zapisz odpowiedź liczbą rzymską: XXXV - ? = XI", hint: "Zamień liczby na arabskie: 35 - ? = 11. Znajdź niewiadomą i zapisz ją ponownie jako liczbę rzymską.", answers: ["XXIV"] },
-            { text: "Równanie ułożone z zapałek jest beklędne: XI - V = IV. Przełóż tylko jedną zapałkę, aby równanie stało się prawdziwe. Zapisz nowe poprawne równanie (użyj znaku + lub =).", hint: "Spróbuj zamienić znak minus na plus, zabierając jedną zapałkę z liczby XI.", answers: ["v+v=x", "vi+iv=x"] },
-
-            // BLOK 3: Zamiana jednostek
-            { text: "Wstaw odpowiedni znak (<, > lub =) w miejsce kropek: 3 kg 4 dag .... 340 dag", hint: "Pamiętaj, że 1 kg = 100 dag. Zatem 3 kg 4 dag to ile dekagramów?", answers: ["<"] },
-            { text: "Mama kupiła 30 dag sera, 50 dag kiełbasy i 1 kg jabłek. Ile gramów (g) ważą zakupy razem?", hint: "Zamień wszystko na gramy: 1 dag = 10 g, 1 kg = 1000 g. Potem dodaj wszystko do siebie.", answers: ["1800", "1800g"] },
-            { text: "Ania czytała książkę przez 120 minut. Ile to godzin?", hint: "Jedna godzina ma 60 minut. Podziel 120 przez 60.", answers: ["2", "2h", "2godziny"] },
-            { text: "Egzamin rozpoczął się o godzinie 11:45 i trwał dokładnie 90 minut. O której godzinie egzamin się zakończył? (Zapisz w formacie GG:MM)", hint: "90 minut to 1 godzina i 30 minut. Dodaj ten czas do godziny 11:45.", answers: ["13:15"] },
-
-            // BLOK 4: Geometria i skala
-            { text: "Obwód prostokąta wynosi 40 cm. Jego długość to 12 cm. Znajdź szerokość tego prostokąta (w cm).", hint: "Prostokąt ma dwie długości i dwie szerokości. Odejmij dwie długości od obwodu (40 - 24) i wynik podziel przez 2.", answers: ["8", "8cm"] },
-            { text: "Bok kwadratu ma długość 1 dm 2 cm. Oblicz obwód tego kwadratu w centymetrach.", hint: "Zamień bok na centymetry: 1 dm 2 cm = 12 cm. Kwadrat ma 4 równe boki, więc pomnóż wynik przez 4.", answers: ["48", "48cm"] },
-            { text: "Na stole ułożono w jednym rzędzie, ściśle obok siebie, 5 jednakowych monet. Promień jednej monety wynosi 12 mm. Jaką długość ma cały rząd monet (w mm)?", hint: "Uwaga, pułapka! Szerokość monety to jej średnica (dwa promienie), czyli 24 mm. Pomnóż to przez 5 monet.", answers: ["120", "120mm"] },
-            { text: "Na mapie w skali 1:200 długość płotu wynosi 5 cm. Ile metrów wynosi rzeczywista długość tego płotu?", hint: "Pomnóż 5 cm przez 200, aby otrzymać wynik w centymetrach (1000 cm). Następnie zamień centymetry na metry.", answers: ["10", "10m"] },
-
-            // BLOK 5: Średnia
-            { text: "Temperatura powietrza w ciągu czterech dni wynosiła odpowiednio: 12°C, 15°C, 18°C i 11°C. Oblicz średnią temperaturę z tych dni.", hint: "Dodaj wszystkie cztery temperatury do siebie, a następnie podziel otrzymaną sumę przez 4.", answers: ["14"] },
-            { text: "Piłkarz w 5 meczach zdobył następującą liczbę bramek: 2, 0, 1, 3, 4. Jaka jest jego średnia liczba bramek na mecz?", hint: "Pułapka! Dodaj wszystkie bramki (suma wynosi 10) i podziel przez liczbę WSZYSTKICH meczów, czyli przez 5 (mecz z zerem też się liczy!).", answers: ["2"] },
-            { text: "Średni wzrost dwóch krasnali wynosi 45 cm. Wzrost pierwszego z nich to 40 cm. Jaki wzrost ma drugi krasnal?", hint: "Skoro średnia dwóch wynosi 45 cm, to razem mają 45 * 2 = 90 cm. Odejmij wzrost pierwszego krasnala.", answers: ["50", "50cm"] },
-
-            // BLOK 6: Zadania logiczne
-            { text: "Prosta aleja o długości 30 metrów została obsadzona drzewami. Odległość między sąsiednimi drzewami wynosi 5 metrów. Ile drzew rośnie w tej alei, jeśli stoją one na samym jej początku i na samym końcu?", hint: "Podział 30 : 5 = 6 daje liczbę odstępów między drzewami. Drzew jest o jedno więcej niż odstępów.", answers: ["7"] },
-            { text: "Przecięcie rury na 3 części zajmuje robotnikowi 6 minut. Ile czasu zajmie mu przecięcie takiej samej rury na 4 części?", hint: "Aby mieć 3 części, trzeba zrobić 2 cięcia (jedno cięcie trwa 3 minuty). Aby mieć 4 części, trzeba wykonać 3 cięcia.", answers: ["9", "9min"] },
-            { text: "Pomyślałem pewną liczbę x. Pomnożyłem ją przez 3, od rezultatu odjąłem 5 i otrzymałem 22. Zapisz to równanie.", hint: "Pomnożenie x przez 3 to 3x. Oddejmij 5 i przyrównaj do 22.", answers: ["3x-5=22", "x*3-5=22", "22=3x-5"] },
-            { text: "Na podwórku chodzą króliki (4 nogi) i bażanty (2 nogi). Razem mają 10 głów i 28 nóg. Ile królików chodzi po podwórku?", hint: "Gdyby wszystkie zwierzęta były bażantami, miałyby 20 nóg. Mamy 8 dodatkowych nóg, podziel je po 2 na każdego królika.", answers: ["4"] },
-
-            // ZADANIA Z GWIAZDKĄ (*)
-            { text: "* [Zadanie Olimpijskie] Dzisiaj jest wtorek. Jaki dzień tygodnia będzie za 50 dni?", hint: "Podziel 50 przez 7 dni tygodnia. Sprawdź resztę z dzielenia i przesuń się o tyle dni do przodu od wtorku.", answers: ["środa", "sroda"] },
-            { text: "* [Zadanie Olimpijskie] Trzy jednakowe kwadraty, każdy o obwodzie 12 cm, ułożono obok siebie w jednym rzędzie tak, że powstał duży prostokąt. Oblicz obwód tego prostokąta.", hint: "Bok kwadratu to 12:4 = 3 cm. Nowy prostokąt ma wymiary 9 cm na 3 cm. Oblicz jego obwód.", answers: ["24", "24cm"] },
-            { text: "* [Zadanie Olimpijskie] Zapisz za pomocą znaków rzymskich liczbę: 99", hint: "Pułapka! Nie można zapisać tego jako IC. Zapisz oddzielnie 90 (XC) oraz 9 (IX).", answers: ["XCIX"] }
+        // STRUKTURA PODZIELONA NA TEMATY
+        const sectionsData = [
+            {
+                title: "Blok 1: Działania i terminy matematyczne",
+                theory: "<b>Ważne na konkursie:</b> Pamiętaj o kolejności działań: najpierw nawiasy, potem mnożenie i dzielenie, na końcu dodawanie i odejmowanie. Zwróć uwagę na terminy: <i>suma</i> (+), <i>różnica</i> (-), <i>iloczyn</i> (*), <i>iloraz</i> (:).",
+                tasks: [
+                    { id: 1, text: "Oblicz wynik działania: 72 - 12 : 3 + 4 * (17 - 9)", hint: "Pamiętaj o kolejności działań: najpierw nawias, potem dzielenie i mnożenie, na końcu dodawanie i odejmowanie.", answers: ["100"] },
+                    { id: 2, text: "W klasie jest 26 uczniów. Na lekcji wychowania fizycznego należy podzielić ich na drużyny po 4 osoby. Ilu uczniów pozostanie bez drużyny (reszta z dzielenia)?", hint: "Wykonaj dzielenie z resztą liczby 26 przez 4. Podaj tylko samą resztę.", answers: ["2"] },
+                    { id: 3, text: "Zapisz w postaci równania: Różnicę liczb 100 i 28 zmniejszono 8 razy i otrzymano wynik x.", hint: "Różnica to odejmowanie, zmniejszono 8 razy to dzielenie. Całość przyrównaj do x.", answers: ["(100-28):8=x", "(100-28)/8=x", "x=(100-28):8", "x=(100-28)/8", "9=x", "x=9"] },
+                    { id: 4, text: "Zapisz w postaci wyrażenia i oblicz: Do iloczynu liczb 9 i 6 dodaj iloraz liczby 35 przez 5.", hint: "Iloczyn to mnożenie (9*6), iloraz to dzielenie (35:5). Dodaj te dwa wyniki do siebie.", answers: ["61"] },
+                    { id: 5, text: "Wstaw odpowiedni znak działania (+, -, * lub :) w miejsce gwiazdki, aby równość była prawdziwa: 48 * (12 - 4) = 6", hint: "Najpierw oblicz wynik w nawiasie (12 - 4 = 8). Jakie działanie musisz wykonać na liczbach 48 i 8, aby otrzymać 6?", answers: [":", "/"] }
+                ]
+            },
+            {
+                title: "Blok 2: Znaki rzymskie",
+                theory: "<b>Ważne na konkursie:</b> Jeśli mniejszy znak stoi przed większym, to go odejmujemy (IV=4, IX=9). Jeśli stoi po większym, dodajemy go (VI=6, XI=11). Pamiętaj, że ten sam znak nie może powtórzyć się 4 razy z rzędu!",
+                tasks: [
+                    { id: 6, text: "Zapisz cyframi arabskimi liczbę rzymską: XXIV", hint: "X to 10, a IV to 4. Połącz te wartości.", answers: ["24"] },
+                    { id: 7, text: "Zapisz znakami rzymskimi liczbę: 34", hint: "34 składa się z trzech dziesiątek (XXX) i czwórki (IV). Używaj wielkich liter.", answers: ["XXXIV"] },
+                    { id: 8, text: "Jaka liczba ukrywa się pod znakiem zapytania? Zapisz odpowiedź liczbą rzymską: XXXV - ? = XI", hint: "Zamień liczby na arabskie: 35 - ? = 11. Znajdź niewiadomą i zapisz ją ponownie jako liczbę rzymską.", answers: ["XXIV"] },
+                    { id: 9, text: "Równanie ułożone z zapałek jest błędne: XI - V = IV. Przełóż tylko jedną zapałkę, aby równanie stało się prawdziwe. Zapisz nowe poprawne równanie (użyj znaku + lub =).", hint: "Spróbuj zamienić znak minus na plus, zabierając jedną zapałkę z liczby XI.", answers: ["v+v=x", "vi+iv=x"] }
+                ]
+            },
+            {
+                title: "Blok 3: Zamiana jednostek (Masa, Długość, Czas)",
+                theory: "<b>Ważne na konkursie:</b> Uważaj na jednostki masy popularne w Polsce: <b>1 kg = 100 dag = 1000 g</b> (czyli 1 dag = 10 g). Przy jednostkach czasu pamiętaj, że 1 godzina to 60 minut, a nie 100!",
+                tasks: [
+                    { id: 10, text: "Wstaw odpowiedni znak (<, > lub =) w miejsce kropek: 3 kg 4 dag .... 340 dag", hint: "Pamiętaj, że 1 kg = 100 dag. Zatem 3 kg 4 dag to ile dekagramów?", answers: ["<"] },
+                    { id: 11, text: "Mama kupiła 30 dag sera, 50 dag kiełbasy i 1 kg jabłek. Ile gramów (g) ważą zakupy razem?", hint: "Zamień wszystko na gramy: 1 dag = 10 g, 1 kg = 1000 g. Potem dodaj wszystko do siebie.", answers: ["1800", "1800g"] },
+                    { id: 12, text: "Ania czytała książkę przez 120 minut. Ile to godzin?", hint: "Jedna godzina ma 60 minut. Podziel 120 przez 60.", answers: ["2", "2h", "2godziny"] },
+                    { id: 13, text: "Egzamin rozpoczął się o godzinie 11:45 i trwał dokładnie 90 minut. O której godzinie egzamin się zakończył? (Zapisz w formacie GG:MM)", hint: "90 minut to 1 godzina i 30 minut. Dodaj ten czas do godziny 11:45.", answers: ["13:15"] }
+                ]
+            },
+            {
+                title: "Blok 4: Geometria i skala",
+                theory: "<b>Ważne na konkursie:</b> Prostokąt ma 4 boki (dwie długości i dwie szerokości). Pamiętaj, że średnica (<i>średnica</i>) to dwa promienie (<i>promień</i>): <b>d = 2r</b>. Skala 1:200 oznacza, że obiekt w rzeczywistości jest 200 razy większy.",
+                tasks: [
+                    { id: 14, text: "Obwód prostokąta wynosi 40 cm. Jego długość to 12 cm. Znajdź szerokość tego prostokąta (w cm).", hint: "Prostokąt ma dwie długości i dwie szerokości. Odejmij dwie długości od obwodu (40 - 24) i wynik podziel przez 2.", answers: ["8", "8cm"] },
+                    { id: 15, text: "Bok kwadratu ma długość 1 dm 2 cm. Oblicz obwód tego kwadratu w centymetrach.", hint: "Zamień bok na centymetry: 1 dm 2 cm = 12 cm. Kwadrat ma 4 równe boki, więc pomnóż wynik przez 4.", answers: ["48", "48cm"] },
+                    { id: 16, text: "Na stole ułożono w jednym rzędzie, ściśle obok siebie, 5 jednakowych monet. Promień jednej monety wynosi 12 mm. Jaką długość ma cały rząd monet (w mm)?", hint: "Uwaga, pułapka! Szerokość monety to jej średnica (dwa promienie), czyli 24 mm. Pomnóż to przez 5 monet.", answers: ["120", "120mm"] },
+                    { id: 17, text: "Na mapie w skali 1:200 długość płotu wynosi 5 cm. Ile metrów wynosi rzeczywista długość tego płotu?", hint: "Pomnóż 5 cm przez 200, aby otrzymać wynik w centymetrach (1000 cm). Następnie zamień centymetry na metry.", answers: ["10", "10m"] }
+                ]
+            },
+            {
+                title: "Blok 5: Średnia arytmetyczna",
+                theory: "<b>Ważne na konkursie:</b> Aby obliczyć średnią, dodaj wszystkie liczby do siebie, a wynik podziel przez ich ilość. Jeśli w danych pojawia się liczba 0 (np. mecz bez bramek), musisz ją dodać do sumy, a sam mecz wliczyć do dzielenia!",
+                tasks: [
+                    { id: 18, text: "Temperatura powietrza w ciągu czterech dni wynosiła odpowiednio: 12°C, 15°C, 18°C i 11°C. Oblicz średnią temperaturę z tych dni.", hint: "Dodaj wszystkie cztery temperatury do siebie, a następnie podziel otrzymaną sumę przez 4.", answers: ["14"] },
+                    { id: 19, text: "Piłkarz w 5 meczach zdobył następującą liczbę bramek: 2, 0, 1, 3, 4. Jaka jest jego średnia liczba bramek na mecz?", hint: "Pułapka! Dodaj wszystkie bramki (suma wynosi 10) i podziel przez liczbę WSZYSTKICH meczów, czyli przez 5 (mecz z zerem też się liczy!).", answers: ["2"] },
+                    { id: 20, text: "Średni wzrost dwóch krasnali wynosi 45 cm. Wzrost pierwszego z nich to 40 cm. Jaki wzrost ma drugi krasnal?", hint: "Skoro średnia dwóch wynosi 45 cm, to razem mają 45 * 2 = 90 cm. Odejmij wzrost pierwszego krasnala.", answers: ["50", "50cm"] }
+                ]
+            },
+            {
+                title: "Blok 6: Zadania logiczne",
+                theory: "<b>Ważne na konkursie:</b> Zwracaj uwagę na odległości i cięcia. Liczba części jest zawsze o 1 większa niż liczba cięć (np. 2 cięcia dają 3 części). W zadaniach z drzewami, drzew jest o 1 więcej niż samych odstępów.",
+                tasks: [
+                    { id: 21, text: "Prosta aleja o długości 30 metrów została obsadzona drzewami. Odległość między sąsiednimi drzewami wynosi 5 metrów. Ile drzew rośnie w tej alei, jeśli stoją one na samym jej początku i na samym końcu?", hint: "Podział 30 : 5 = 6 daje liczbę odstępów między drzewami. Drzew jest o jedno więcej niż odstępów.", answers: ["7"] },
+                    { id: 22, text: "Przecięcie rury na 3 części zajmuje robotnikowi 6 minut. Ile czasu zajmie mu przecięcie takiej samej rury na 4 części?", hint: "Aby mieć 3 części, trzeba zrobić 2 cięcia (jedno cięcie trwa 3 minuty). Aby mieć 4 części, trzeba wykonać 3 cięcia.", answers: ["9", "9min"] },
+                    { id: 23, text: "Pomyślałem pewną liczbę x. Pomnożyłem ją przez 3, od rezultatu odjąłem 5 i otrzymałem 22. Zapisz to równanie.", hint: "Pomnożenie x przez 3 to 3x. Oddejmij 5 i przyrównaj do 22.", answers: ["3x-5=22", "x*3-5=22", "22=3x-5"] },
+                    { id: 24, text: "Na podwórku chodzą króliki (4 nogi) i bażanty (2 nogi). Razem mają 10 głów i 28 nóg. Ile królików chodzi po podwórku?", hint: "Gdyby wszystkie zwierzęta były bażantami, miałyby 20 nóg. Mamy 8 dodatkowych nóg, podziel je po 2 na każdego królika.", answers: ["4"] }
+                ]
+            },
+            {
+                title: "Zadania z gwiazdką (*) - Poziom Olimpijski",
+                theory: "<b>Najwyższy poziom trudności:</b> Te zadania wymagają nieszablonowego myślenia. Uważaj na cykle kalendarzowe (tydzień ma 7 dni), zmianę obwodu przy łączeniu figur oraz skomplikowane liczby rzymskie (np. 99 zapisujemy jako XC i IX oddzielnie).",
+                tasks: [
+                    { id: 25, text: "* [Zadanie Olimpijskie] Dzisiaj jest wtorek. Jaki dzień tygodnia będzie za 50 dni?", hint: "Podziel 50 przez 7 dni tygodnia. Sprawdź resztę z dzielenia i przesuń się o tyle dni do przodu od wtorku.", answers: ["środa", "sroda"] },
+                    { id: 26, text: "* [Zadanie Olimpijskie] Trzy jednakowe kwadraty, każdy o obwodzie 12 cm, ułożono obok siebie w jednym rzędzie tak, że powstał duży prostokąt. Oblicz obwód tego prostokąta.", hint: "Bok kwadratu to 12:4 = 3 cm. Nowy prostokąt ma wymiary 9 cm na 3 cm. Oblicz jego obwód.", answers: ["24", "24cm"] },
+                    { id: 27, text: "* [Zadanie Olimpijskie] Zapisz za pomocą znaków rzymskich liczbę: 99", hint: "Pułapka! Nie można zapisać tego jako IC. Zapisz oddzielnie 90 (XC) oraz 9 (IX).", answers: ["XCIX"] }
+                ]
+            }
         ];
 
         const container = document.getElementById("tasks-container");
+        let totalTasksCount = 0;
 
-        tasksData.forEach((task, index) => {
-            const taskNum = index + 1;
-            resultsData[taskNum] = "Nie rozwiązano"; 
-
-            const answersJson = JSON.stringify(task.answers).replace(/"/g, "'");
-            const firstAnswer = task.answers[0];
-
+        // GENEROWANIE STRUKTURY Z PODZIAŁEM NA BLOKI
+        sectionsData.forEach((section) => {
+            // Dodanie nagłówka sekcji
             container.innerHTML += `
-                <div class="task-card" id="card${taskNum}">
-                    <div class="task-text"><strong>${taskNum}.</strong> ${task.text}</div>
-                    <div class="input-group">
-                        <input type="text" id="input${taskNum}" placeholder="Wpisz odpowiedź...">
-                        <button onclick="checkAnswer(${taskNum}, 'input${taskNum}', 'card${taskNum}', 'feedback${taskNum}', ${answersJson}, 'btn-answer${taskNum}')">Sprawdź</button>
-                        <button class="btn-hint" onclick="document.getElementById('hint${taskNum}').style.display='block'">Podpowiedź</button>
-                        
-                        <button class="btn-answer" id="btn-answer${taskNum}" style="display: none;" onclick="showAnswer(${taskNum}, 'input${taskNum}', '${firstAnswer}', 'card${taskNum}', 'feedback${taskNum}', 'btn-answer${taskNum}')">Odpowiedź</button>
-                        
-                        <span id="feedback${taskNum}" class="feedback"></span>
-                    </div>
-                    <div id="hint${taskNum}" class="hint-text">${task.hint}</div>
+                <div class="section-header">
+                    <h2>${section.title}</h2>
+                </div>
+                <div class="section-theory">
+                    ${section.theory}
                 </div>
             `;
+
+            // Dodanie zadań z danej sekcji
+            section.tasks.forEach((task) => {
+                totalTasksCount++;
+                resultsData[task.id] = "Nie rozwiązano"; 
+
+                const answersJson = JSON.stringify(task.answers).replace(/"/g, "'");
+                const firstAnswer = task.answers[0];
+
+                container.innerHTML += `
+                    <div class="task-card" id="card${task.id}">
+                        <div class="task-text"><strong>${task.id}.</strong> ${task.text}</div>
+                        <div class="input-group">
+                            <input type="text" id="input${task.id}" placeholder="Wpisz odpowiedź...">
+                            <button onclick="checkAnswer(${task.id}, 'input${task.id}', 'card${task.id}', 'feedback${task.id}', ${answersJson}, 'btn-answer${task.id}')">Sprawdź</button>
+                            <button class="btn-hint" onclick="document.getElementById('hint${task.id}').style.display='block'">Podpowiedź</button>
+                            
+                            <button class="btn-answer" id="btn-answer${task.id}" style="display: none;" onclick="showAnswer(${task.id}, 'input${task.id}', '${firstAnswer}', 'card${task.id}', 'feedback${task.id}', 'btn-answer${task.id}')">Odpowiedź</button>
+                            
+                            <span id="feedback${task.id}" class="feedback"></span>
+                        </div>
+                        <div id="hint${task.id}" class="hint-text">${task.hint}</div>
+                    </div>
+                `;
+            });
         });
 
         function checkAnswer(taskNum, inputId, cardId, feedbackId, correctAnswers, btnAnswerId) {
@@ -257,9 +313,8 @@
         function sendResults() {
             let correctCount = 0; let hintCount = 0; let notSolvedCount = 0;
             let detailedReport = "";
-            const totalTasks = tasksData.length;
 
-            for(let i=1; i<=totalTasks; i++) {
+            for(let i=1; i<=totalTasksCount; i++) {
                 let inputId = 'input' + i;
                 let currentInputVal = document.getElementById(inputId).value.trim();
                 let attemptsSet = userAttempts[inputId];
@@ -287,7 +342,7 @@
                 }
             }
 
-            const finalMessage = `Uczeń: ${currentStudent}\nKlasa: ${currentClass}\n\nWYNIK GŁÓWNY:\n- Rozwiązane samodzielnie: ${correctCount} z ${totalTasks}\n- Z użyciem gotowej odpowiedzi: ${hintCount} z ${totalTasks}\n- Brak odpowiedzi: ${notSolvedCount} z ${totalTasks}\n\nSZCZEGÓŁY:\n${detailedReport}`;
+            const finalMessage = `Uczeń: ${currentStudent}\nKlasa: ${currentClass}\n\nWYNIK GŁÓWNY:\n- Rozwiązane samodzielnie: ${correctCount} z ${totalTasksCount}\n- Z użyciem gotowej odpowiedzi: ${hintCount} z ${totalTasksCount}\n- Brak odpowiedzi: ${notSolvedCount} z ${totalTasksCount}\n\nSZCZEGÓŁY:\n${detailedReport}`;
 
             const btnSubmit = document.getElementById("btn-submit");
             btnSubmit.textContent = "Wysyłanie...";
