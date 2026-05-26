@@ -145,75 +145,49 @@
             document.getElementById("app-content").style.display = "block";
         }
 
-        // STRUKTURA PODZIELONA NA TEMATY
+        // NOWA STRUKTURA BAZY WIEDZY
         const sectionsData = [
             {
-                title: "Blok 1: Działania i terminy matematyczne",
-                theory: "<b>Ważne na konkursie:</b> Pamiętaj o kolejności działań: najpierw nawiasy, potem mnożenie i dzielenie, na końcu dodawanie i odejmowanie. Zwróć uwagę na terminy: <i>suma</i> (+), <i>różnica</i> (-), <i>iloczyn</i> (*), <i>iloraz</i> (:).",
+                title: "Blok 1: Znaki rzymskie",
+                theory: "<b>Ważne na konkursie:</b> Jeśli mniejszy znak stoi przed większym, to go odejmujemy (IV=4, IX=9). Jeśli stoi po większym, dodajemy (VI=6, XI=11). Pamiętaj, że ten sam znak nie może powtórzyć się 4 razy z rzędu!",
                 tasks: [
-                    { id: 1, text: "Oblicz wynik działania: 85 - 18 : 2 + 5 * (14 - 8)", hint: "Pamiętaj o kolejności działań: najpierw nawias, potem dzielenie i mnożenie, na końcu dodawanie i odejmowanie.", answers: ["106"] },
-                    { id: 2, text: "W klasie jest 23 uczniów. Na lekcji plastyki nauczyciel dzieli ich na grupy po 5 osób. Ilu uczniów pozostanie bez grupy (reszta z dzielenia)?", hint: "Wykonaj dzielenie z resztą liczby 23 przez 5. Podaj tylko samą resztę.", answers: ["3"] },
-                    { id: 3, text: "Zapisz w postaci równania: Sumę liczb 45 i 15 zmniejszono 5 razy i otrzymano wynik x.", hint: "Suma to dodawanie, zmniejszono 5 razy to dzielenie. Całość przyrównaj do x.", answers: ["(45+15):5=x", "(45+15)/5=x", "x=(45+15):5", "x=(45+15)/5", "12=x", "x=12"] },
-                    { id: 4, text: "Zapisz w postaci wyrażenia i oblicz: Od iloczynu liczb 8 i 7 odejmij iloraz liczby 24 przez 4.", hint: "Iloczyn to mnożenie (8*7), iloraz to dzielenie (24:4). Odejmij drugi wynik od pierwszego.", answers: ["50"] },
-                    { id: 5, text: "Wstaw odpowiedni znak działania (+, -, * lub :) w miejsce gwiazdki, aby równość była prawdziwa: 56 * (15 - 7) = 7", hint: "Najpierw oblicz wynik w nawiasie (15 - 7 = 8). Jakie działanie musisz wykonać na liczbach 56 i 8, aby otrzymać 7?", answers: [":", "/"] }
+                    { id: 1, text: "Zapisz cyframi arabskimi liczby rzymskie (oddziel przecinkiem bez spacji): CXLIV, DCCCXCIX", hint: "C=100, XL=40, IV=4. D=500, C=100, XC=90, IX=9.", answers: ["144,899"] },
+                    { id: 2, text: "Zapisz znakami rzymskimi liczby (oddziel przecinkiem bez spacji): 49, 194", hint: "40 to XL, 9 to IX. 100 to C, 90 to XC, 4 to IV. Używaj wielkich liter.", answers: ["XLIX,CXCIV"] },
+                    { id: 3, text: "Oblicz i zapisz wynik znakami rzymskimi: LXXII - XXVIII", hint: "Zamień na cyfry arabskie: 72 - 28. Wynik zapisz ponownie jako liczbę rzymską.", answers: ["XLIV"] }
                 ]
             },
             {
-                title: "Blok 2: Znaki rzymskie",
-                theory: "<b>Ważne na konkursie:</b> Jeśli mniejszy znak stoi przed większym, to go odejmujemy (IV=4, IX=9). Jeśli stoi po większym, dodajemy go (VI=6, XI=11). Pamiętaj, że ten sam znak nie może powtórzyć się 4 razy z rzędu!",
+                title: "Blok 2: Zamiana jednostek masy i czasu",
+                theory: "<b>Ważne na konkursie:</b> 1 tona to 1000 kg, 1 kg to 1000 g. Pamiętaj, że 1 godzina to 60 minut, a przy przejściu przez północ czas liczymy od nowa.",
                 tasks: [
-                    { id: 6, text: "Zapisz cyframi arabskimi liczbę rzymską: XXXIV", hint: "XXX to 30, a IV to 4. Połącz te wartości.", answers: ["34"] },
-                    { id: 7, text: "Zapisz znakami rzymskimi liczbę: 29", hint: "29 składa się z dwóch dziesiątek (XX) i dziewiątki (IX). Używaj wielkich liter.", answers: ["XXIX"] },
-                    { id: 8, text: "Jaka liczba ukrywa się pod znakiem zapytania? Zapisz odpowiedź liczbą rzymską: XXV - ? = XIV", hint: "Zamień liczby na arabskie: 25 - ? = 14. Znajdź niewiadomą i zapisz ją ponownie jako liczbę rzymską.", answers: ["XI"] },
-                    { id: 9, text: "Równanie ułożone z zapałek jest błędne: XII - V = IV. Przełóż tylko jedną zapałkę, aby równanie stało się prawdziwe. Zapisz nowe poprawne równanie (użyj znaku + lub =).", hint: "Spróbuj zmienić liczbę XII w inną liczbę rzymską lub zamienić znak minus na plus.", answers: ["v+v=x", "vi+iv=x"] }
+                    { id: 4, text: "Masa słonia wynosi 3 t 15 kg, a masa hipopotama 1800 kg. O ile gramów słoń jest cięższy od hipopotama?", hint: "Słoń waży 3015 kg (nie 3150!). Odejmij 1800 kg i zamień różnicę na gramy dopisując trzy zera.", answers: ["1215000", "1215000g"] },
+                    { id: 5, text: "Pociąg wyjechał ze stacji o godzinie 22:45 i był w trasie przez 8 godzin i 35 minut. O której godzinie dotarł na stację docelową? (Zapisz GG:MM)", hint: "22:45 plus 1 godzina i 15 minut daje północ (00:00). Od 8h 35m odejmij ten czas i dodaj resztę do północy.", answers: ["07:20", "7:20"] }
                 ]
             },
             {
-                title: "Blok 3: Zamiana jednostek (Masa, Długość, Czas)",
-                theory: "<b>Ważne na konkursie:</b> Uważaj na jednostki masy popularne w Polsce: <b>1 kg = 100 dag = 1000 g</b> (czyli 1 dag = 10 g). Przy jednostkach czasu pamiętaj, że 1 godzina to 60 minut, a nie 100!",
+                title: "Blok 3: Kolejność działań i terminy",
+                theory: "<b>Ważne na konkursie:</b> Kolejność działań to podstawa: najpierw nawiasy, potem mnożenie i dzielenie (równorzędne, od lewej do prawej), na końcu dodawanie i odejmowanie. Iloczyn to mnożenie, iloraz to dzielenie.",
                 tasks: [
-                    { id: 10, text: "Wstaw odpowiedni znak (<, > lub =) w miejsce kropek: 4 kg 5 dag .... 450 dag", hint: "Pamiętaj, że 1 kg = 100 dag. Zatem 4 kg 5 dag to ile dekagramów?", answers: ["<"] },
-                    { id: 11, text: "Tata kupił 40 dag sera, 20 dag szynki i 1 kg pomidorów. Ile gramów (g) ważą zakupy razem?", hint: "Zamień wszystko na gramy: 1 dag = 10 g, 1 kg = 1000 g. Potem dodaj wszystko do siebie.", answers: ["1600", "1600g"] },
-                    { id: 12, text: "Kamil jechał na rowerze przez 180 minut. Ile to godzin?", hint: "Jedna godzina ma 60 minut. Podziel 180 przez 60.", answers: ["3", "3h", "3godziny"] },
-                    { id: 13, text: "Przedstawienie teatralne rozpoczęło się o godzinie 12:40 i trwało dokładnie 90 minut. O której godzinie przedstawienie się skończyło? (Zapisz w formacie GG:MM)", hint: "90 minut to 1 godzina i 30 minut. Dodaj ten czas do godziny 12:40.", answers: ["14:10"] }
+                    { id: 6, text: "Oblicz: 120 - 48 : 6 * 2 + (15 - 8)", hint: "Najpierw nawias (15-8=7). Potem dzielenie 48:6, a wynik POMNÓŻ przez 2 (działania równorzędne wykonujemy od lewej do prawej). Dopiero potem odejmij i dodaj.", answers: ["111"] },
+                    { id: 7, text: "Powiększ różnicę liczb 100 i 65 o iloczyn liczb 8 i 7.", hint: "Różnica to odejmowanie (100-65=35). Iloczyn to mnożenie (8*7=56). 'Powiększ o' znaczy dodaj.", answers: ["91"] },
+                    { id: 8, text: "Znajdź dzielną, jeśli dzielnik wynosi 6, iloraz wynosi 12, a reszta to 5.", hint: "Użyj wzoru: Dzielna = (iloraz * dzielnik) + reszta.", answers: ["77"] }
                 ]
             },
             {
-                title: "Blok 4: Geometria i skala",
-                theory: "<b>Ważne na konkursie:</b> Prostokąt ma 4 boki (dwie długości i dwie szerokości). Pamiętaj, że średnica (<i>średnica</i>) to dwa promienie (<i>promień</i>): <b>d = 2r</b>. Skala 1:200 oznacza, że obiekt w rzeczywistości jest 200 razy większy.",
+                title: "Blok 4: Geometria, Skala i Zadania Tekstowe",
+                theory: "<b>Ważne na konkursie:</b> Średnica (d) to zawsze dwa promienie (r). W skali 1:2 000 000 każdy 1 cm na mapie to 2 000 000 cm (czyli 20 km) w terenie.",
                 tasks: [
-                    { id: 14, text: "Obwód prostokąta wynosi 50 cm. Jego długość to 15 cm. Znajdź szerokość tego prostokąta (w cm).", hint: "Prostokąt ma dwie długości i dwie szerokości. Odejmij dwie długości od obwodu (50 - 30) i wynik podziel przez 2.", answers: ["10", "10cm"] },
-                    { id: 15, text: "Bok kwadratu ma długość 1 dm 5 cm. Oblicz obwód tego kwadratu w centymetrach.", hint: "Zamień bok na centymetry: 1 dm 5 cm = 15 cm. Kwadrat ma 4 równe boki, więc pomnóż wynik przez 4.", answers: ["60", "60cm"] },
-                    { id: 16, text: "Na stole ułożono w jednym rzędzie, ściśle obok siebie, 4 jednakowe żetony. Promień jednego żetonu wynosi 15 mm. Jaką długość ma cały rząd żetonów (w mm)?", hint: "Szerokość żetonu to jego średnica (dwa promienie), czyli 30 mm. Pomnóż to przez 4 żetony.", answers: ["120", "120mm"] },
-                    { id: 17, text: "Na mapie w skali 1:300 długość ścieżki wynosi 4 cm. Ile metrów wynosi rzeczywista długość tej ścieżki?", hint: "Pomnóż 4 cm przez 300, aby otrzymać wynik w centymetrach (1200 cm). Następnie zamień centymetry na metry.", answers: ["12", "12m"] }
+                    { id: 9, text: "Szerokość prostokąta jest równa promieniowi okręgu, którego średnica wynosi 12 cm. Długość tego prostokąta jest 3 razy większa od jego szerokości. Oblicz obwód tego prostokąta (w cm).", hint: "Promień to połowa średnicy (12:2=6), więc szerokość to 6. Długość to 6*3=18. Obwód to suma wszystkich czterech boków.", answers: ["48", "48cm"] },
+                    { id: 10, text: "Odległość na mapie w skali 1:2 000 000 wynosi 4 cm. W jakim czasie samochód przejedzie tę odległość w rzeczywistości, jeśli jedzie 80 km/h? Podaj samą liczbę godzin.", hint: "1 cm na mapie to 20 km w terenie. 4 cm to 80 km. Ile godzin zajmie przejechanie 80 km z prędkością 80 km/h?", answers: ["1", "1h", "1 godzina"] },
+                    { id: 11, text: "Jabłka kosztują 4 zł/kg, a gruszki 6 zł/kg. Ania kupiła 3 kg jabłek i kilka kg gruszek. Dała sprzedawcy 100 zł i otrzymała 52 zł reszty. Ile kilogramów gruszek kupiła?", hint: "Kwota wydana to 100 - 52 = 48 zł. Jabłka kosztowały 3 * 4 = 12 zł. Resztę wydanej kwoty podziel przez cenę gruszek.", answers: ["6", "6kg"] }
                 ]
             },
             {
-                title: "Blok 5: Średnia arytmetyczna",
-                theory: "<b>Ważne na konkursie:</b> Aby obliczyć średnią, dodaj wszystkie liczby do siebie, a wynik podziel przez ich ilość. Jeśli w danych pojawia się liczba 0 (np. mecz bez bramek), musisz ją dodać do sumy, a sam mecz wliczyć do dzielenia!",
+                title: "Blok 5: Działania pisemne na liczbach naturalnych",
+                theory: "<b>Ważne na konkursie:</b> Rozwiąż te zadania koniecznie na kartce papieru w słupku! Uważaj na pożyczanie przez zera.",
                 tasks: [
-                    { id: 18, text: "Temperatura powietrza w ciągu czterech dni wynosiła odpowiednio: 10°C, 14°C, 16°C i 12°C. Oblicz średnią temperaturę z tych dni.", hint: "Dodaj wszystkie cztery temperatury do siebie, a następnie podziel otrzymaną sumę przez 4.", answers: ["13"] },
-                    { id: 19, text: "Hokeista w 5 meczach zdobył następującą liczbę punktów: 3, 0, 2, 1, 4. Jaka jest jego średnia liczba punktów na mecz?", hint: "Dodaj wszystkie punkty (suma wynosi 10) i podziel przez liczbę wszystkich meczów, czyli przez 5.", answers: ["2"] },
-                    { id: 20, text: "Średni wzrost dwóch skrzatów wynosi 35 cm. Wzrost pierwszego z nich to 30 cm. Jaki wzrost ma drugi skrzat?", hint: "Skoro średnia dwóch wynosi 35 cm, to razem mają 35 * 2 = 70 cm. Odejmij wzrost pierwszego skrzata.", answers: ["40", "40cm"] }
-                ]
-            },
-            {
-                title: "Blok 6: Zadania logiczne",
-                theory: "<b>Ważne na konkursie:</b> Zwracaj uwagę na odległości i cięcia. Liczba części jest zawsze o 1 większa niż liczba cięć (np. 2 cięcia dają 3 części). Inaczej jest w zadaniach z płotami i drzewami, gdzie na końcach też stoją obiekty.",
-                tasks: [
-                    { id: 21, text: "Prosty płot o długości 40 metrów ma słupki rozstawione co 5 metrów. Ile słupków użyto do budowy tego płotu, jeśli słupki stoją na samym jego początku i na samym końcu?", hint: "Podział 40 : 5 = 8 daje liczbę odstępów między słupkami. Słupków jest o jeden więcej niż odstępów.", answers: ["9"] },
-                    { id: 22, text: "Przecięcie deski na 3 części zajmuje stolarzowi 4 minuty. Ile czasu zajmie mu przecięcie takiej samej deski na 5 części?", hint: "Aby mieć 3 części, trzeba zrobić 2 cięcia (jedno cięcie trwa 2 minuty). Aby mieć 5 części, trzeba wykonać 4 cięcia.", answers: ["8", "8min"] },
-                    { id: 23, text: "Pomyślałem pewną liczbę x. Pomnożyłem ją przez 4, od rezultatu odjąłem 6 i otrzymałem 26. Zapisz to równanie.", hint: "Pomnożenie x przez 4 to 4x. Odejmij 6 i przyrównaj do 26.", answers: ["4x-6=26", "x*4-6=26", "26=4x-6"] },
-                    { id: 24, text: "Na łące pasą się gęsie (2 nogi) i owce (4 nogi). Razem mają 8 głów i 22 nogi. Ile owiec pasie się na łące?", hint: "Gdyby wszystkie zwierzęta były gęsiami, miałyby 16 nóg. Mamy 6 dodatkowych nóg, podziel je po 2 na każdą owcę.", answers: ["3"] }
-                ]
-            },
-            {
-                title: "Zadania z gwiazdką (*) - Poziom Olimpijski",
-                theory: "<b>Najwyższy poziom trudności:</b> Te zadania wymagają nieszablonowego myślenia. Uważaj na cykle kalendarzowe (tydzień ma 7 dni), zmianę obwodu przy łączeniu figur oraz skomplikowane liczby rzymskie (np. 99 zapisujemy jako XC i IX oddzielnie).",
-                tasks: [
-                    { id: 25, text: "* [Zadanie Olimpijskie] Dzisiaj jest czwartek. Jaki dzień tygodnia będzie za 45 dni?", hint: "Podziel 45 przez 7 dni tygodnia. Sprawdź resztę z dzielenia (reszta to 3) i przesuń się o tyle dni do przodu od czwartku.", answers: ["niedziela"] },
-                    { id: 26, text: "* [Zadanie Olimpijskie] Cztery jednakowe kwadraty, każdy o obwodzie 16 cm, ułożono obok siebie w jednym rzędzie tak, że powstał duży prostokąt. Oblicz obwód tego prostokąta.", hint: "Bok kwadratu to 16:4 = 4 cm. Nowy prostokąt składa się z 4 takich kwadratów, więc jego wymiary to 16 cm na 4 cm. Oblicz jego obwód.", answers: ["40", "40cm"] },
-                    { id: 27, text: "* [Zadanie Olimpijskie] Zapisz za pomocą znaków rzymskich liczbę: 94", hint: "Zapisz oddzielnie 90 (XC) oraz 4 (IV). Połącz te znaki.", answers: ["XCIV"] }
+                    { id: 12, text: "Oblicz pisemnie: 10005 - 3847", hint: "Pamiętaj o odpowiednim 'pożyczaniu' przez zera od jedynki z przodu.", answers: ["6158"] },
+                    { id: 13, text: "Oblicz pisemnie: 408 * 250", hint: "Wykonaj mnożenie 408 * 25 i dopisz na końcu jedno zero z liczby 250.", answers: ["102000", "102 000"] }
                 ]
             }
         ];
