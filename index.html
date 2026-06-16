@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Szkolny Konkurs Matematyczny - Klasa 4</title>
+    <title>Szkolny Konkurs Matematyczny - Trening</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -145,49 +145,43 @@
             document.getElementById("app-content").style.display = "block";
         }
 
-        // NOWA STRUKTURA BAZY WIEDZY
         const sectionsData = [
             {
-                title: "Blok 1: Znaki rzymskie",
-                theory: "<b>Ważne na konkursie:</b> Jeśli mniejszy znak stoi przed większym, to go odejmujemy (IV=4, IX=9). Jeśli stoi po większym, dodajemy (VI=6, XI=11). Pamiętaj, że ten sam znak nie może powtórzyć się 4 razy z rzędu!",
+                title: "Blok 1: Kolejność działań",
+                theory: "<b>Ważne na konkursie:</b> Pamiętaj o kolejności wykonywania działań! Najpierw wykonujemy działania w nawiasach. Potem mnożenie i dzielenie w kolejności od lewej do prawej. Na końcu wykonujemy dodawanie i odejmowanie (również od lewej do prawej).",
                 tasks: [
-                    { id: 1, text: "Zapisz cyframi arabskimi liczby rzymskie (oddziel przecinkiem bez spacji): CXLIV, DCCCXCIX", hint: "C=100, XL=40, IV=4. D=500, C=100, XC=90, IX=9.", answers: ["144,899"] },
-                    { id: 2, text: "Zapisz znakami rzymskimi liczby (oddziel przecinkiem bez spacji): 49, 194", hint: "40 to XL, 9 to IX. 100 to C, 90 to XC, 4 to IV. Używaj wielkich liter.", answers: ["XLIX,CXCIV"] },
-                    { id: 3, text: "Oblicz i zapisz wynik znakami rzymskimi: LXXII - XXVIII", hint: "Zamień na cyfry arabskie: 72 - 28. Wynik zapisz ponownie jako liczbę rzymską.", answers: ["XLIV"] }
+                    { id: 1, text: "Oblicz: 25 + 5 * 4 =", hint: "Najpierw wykonaj mnożenie 5 * 4, a następnie dodaj wynik do 25.", answers: ["45"] },
+                    { id: 2, text: "Oblicz: (36 - 12) / 4 + 8 =", hint: "Najpierw wykonaj działanie w nawiasie (36 - 12), potem podziel wynik przez 4, a na końcu dodaj 8.", answers: ["14"] },
+                    { id: 3, text: "Oblicz: 48 / 6 * 2 =", hint: "Mnożenie i dzielenie są równorzędne. Wykonaj działania od lewej do prawej: najpierw dzielenie, potem mnożenie.", answers: ["16"] },
+                    { id: 4, text: "Oblicz: 50 - 3 * (12 - 4) + 6 =", hint: "Zacznij od nawiasu (12 - 4). Następnie pomnóż wynik przez 3. W kolejnym kroku wykonaj odejmowanie od 50 i na koniec dodaj 6.", answers: ["32"] },
+                    { id: 5, text: "Oblicz: 70 - 40 / 5 + 3 * 4 =", hint: "Najpierw wykonaj dzielenie (40 / 5) oraz mnożenie (3 * 4). Na końcu wykonaj odejmowanie i dodawanie od lewej do prawej.", answers: ["74"] }
                 ]
             },
             {
-                title: "Blok 2: Zamiana jednostek masy i czasu",
-                theory: "<b>Ważne na konkursie:</b> 1 tona to 1000 kg, 1 kg to 1000 g. Pamiętaj, że 1 godzina to 60 minut, a przy przejściu przez północ czas liczymy od nowa.",
+                title: "Blok 2: Zadania tekstowe – „Zakupy i pieniądze”",
+                theory: "<b>Ważne na konkursie:</b> Przeczytaj uważnie treść zadania. Aby dowiedzieć się, ile pieniędzy było na początku, musisz obliczyć łączny koszt wszystkich zakupów i dodać do niego resztę, która została w portfelu.",
                 tasks: [
-                    { id: 4, text: "Masa słonia wynosi 3 t 15 kg, a masa hipopotama 1800 kg. O ile gramów słoń jest cięższy od hipopotama?", hint: "Słoń waży 3015 kg (nie 3150!). Odejmij 1800 kg i zamień różnicę na gramy dopisując trzy zera.", answers: ["1215000", "1215000g"] },
-                    { id: 5, text: "Pociąg wyjechał ze stacji o godzinie 22:45 i był w trasie przez 8 godzin i 35 minut. O której godzinie dotarł na stację docelową? (Zapisz GG:MM)", hint: "22:45 plus 1 godzina i 15 minut daje północ (00:00). Od 8h 35m odejmij ten czas i dodaj resztę do północy.", answers: ["07:20", "7:20"] }
+                    { id: 6, text: "Antek poszedł do sklepu zoologicznego. Kupił zabawkę dla psa za 16 zł, dwie paczki przysmaków po 9 zł każda oraz obrożę za 24 zł. Po zapłaceniu zostało mu 6 zł reszty. Ile pieniędzy miał Antek przed wejściem do sklepu? (Podaj samą liczbę)", hint: "Oblicz koszt przysmaków: 2 * 9 zł. Dodaj zabawkę (16 zł) i obrożę (24 zł). Do tej sumy dodaj 6 zł reszty.", answers: ["64"] },
+                    { id: 7, text: "Lena kupiła na kiermaszu książkowym gruby notes za 15 zł, trzy zakładki do książek po 4 zł za sztukę i kolorowy długopis za 7 zł. W portfelu zostało jej 11 zł reszty. Ile pieniędzy na kiermasz dostała Lena od mamy? (Podaj samą liczbę)", hint: "Trzy zakładki to 3 * 4 zł = 12 zł. Dodaj cenę notesu (15 zł), długopisu (7 zł) oraz resztę (11 zł).", answers: ["45"] },
+                    { id: 8, text: "Szymon kupował prowiant na wycieczkę rowerową. Wybrał dwa batony energetyczne po 6 zł każdy, dużą butelkę napoju za 8 zł i paczkę orzeszków za 13 zł. Kasjerka wydała mu 17 zł reszty. Z jakim banknotem Szymon podszedł do kasy? (Podaj samą liczbę)", hint: "Oblicz koszt batonów: 2 * 6 zł. Dodaj napój (8 zł) i orzeszki (13 zł). Dodaj resztę (17 zł), aby poznać wartość banknotu.", answers: ["50"] },
+                    { id: 9, text: "Nadia kupiła w sklepie papierniczym duży blok rysunkowy za 11 zł, dwa zestawy naklejek po 8 zł za każdy oraz pudełko plasteliny za 14 zł. Przyniosła do domu 7 zł reszty. Ile pieniędzy miała Nadia na początku? (Podaj samą liczbę)", hint: "Dwa zestawy naklejek to 2 * 8 zł = 16 zł. Dodaj blok (11 zł), plastelinę (14 zł) oraz resztę (7 zł).", answers: ["48"] },
+                    { id: 10, text: "Filip robił zakupy w warzywniaku. Kupił kilogram jabłek za 5 zł, dwa kilogramy borówek po 18 zł za kilogram oraz siatkę ziemniaków za 9 zł. Zostało mu dokładnie 10 zł reszty. Ile pieniędzy dostał Filip od dziadka na te zakupy? (Podaj samą liczbę)", hint: "Borówki kosztowały 2 * 18 zł = 36 zł. Dodaj jabłka (5 zł), ziemniaki (9 zł) oraz resztę, która mu została (10 zł).", answers: ["60"] }
                 ]
             },
             {
-                title: "Blok 3: Kolejność działań i terminy",
-                theory: "<b>Ważne na konkursie:</b> Kolejność działań to podstawa: najpierw nawiasy, potem mnożenie i dzielenie (równorzędne, od lewej do prawej), na końcu dodawanie i odejmowanie. Iloczyn to mnożenie, iloraz to dzielenie.",
+                title: "Blok 3: Dodawanie i odejmowanie ułamków dziesiętnych",
+                theory: "<b>Ważne na konkursie:</b> Przy działaniach pisemnych na ułamkach dziesiętnych kluczowe jest podpisanie liczb <b>przecinek pod przecinkiem</b>! Jeśli liczby mają różną liczbę cyfr po przecinku, dopisz na końcu zera (np. 27,4 zamień na 27,40).",
                 tasks: [
-                    { id: 6, text: "Oblicz: 120 - 48 : 6 * 2 + (15 - 8)", hint: "Najpierw nawias (15-8=7). Potem dzielenie 48:6, a wynik POMNÓŻ przez 2 (działania równorzędne wykonujemy od lewej do prawej). Dopiero potem odejmij i dodaj.", answers: ["111"] },
-                    { id: 7, text: "Powiększ różnicę liczb 100 i 65 o iloczyn liczb 8 i 7.", hint: "Różnica to odejmowanie (100-65=35). Iloczyn to mnożenie (8*7=56). 'Powiększ o' znaczy dodaj.", answers: ["91"] },
-                    { id: 8, text: "Znajdź dzielną, jeśli dzielnik wynosi 6, iloraz wynosi 12, a reszta to 5.", hint: "Użyj wzoru: Dzielna = (iloraz * dzielnik) + reszta.", answers: ["77"] }
-                ]
-            },
-            {
-                title: "Blok 4: Geometria, Skala i Zadania Tekstowe",
-                theory: "<b>Ważne na konkursie:</b> Średnica (d) to zawsze dwa promienie (r). W skali 1:2 000 000 każdy 1 cm na mapie to 2 000 000 cm (czyli 20 km) w terenie.",
-                tasks: [
-                    { id: 9, text: "Szerokość prostokąta jest równa promieniowi okręgu, którego średnica wynosi 12 cm. Długość tego prostokąta jest 3 razy większa od jego szerokości. Oblicz obwód tego prostokąta (w cm).", hint: "Promień to połowa średnicy (12:2=6), więc szerokość to 6. Długość to 6*3=18. Obwód to suma wszystkich czterech boków.", answers: ["48", "48cm"] },
-                    { id: 10, text: "Odległość na mapie w skali 1:2 000 000 wynosi 4 cm. W jakim czasie samochód przejedzie tę odległość w rzeczywistości, jeśli jedzie 80 km/h? Podaj samą liczbę godzin.", hint: "1 cm na mapie to 20 km w terenie. 4 cm to 80 km. Ile godzin zajmie przejechanie 80 km z prędkością 80 km/h?", answers: ["1", "1h", "1 godzina"] },
-                    { id: 11, text: "Jabłka kosztują 4 zł/kg, a gruszki 6 zł/kg. Ania kupiła 3 kg jabłek i kilka kg gruszek. Dała sprzedawcy 100 zł i otrzymała 52 zł reszty. Ile kilogramów gruszek kupiła?", hint: "Kwota wydana to 100 - 52 = 48 zł. Jabłka kosztowały 3 * 4 = 12 zł. Resztę wydanej kwoty podziel przez cenę gruszek.", answers: ["6", "6kg"] }
-                ]
-            },
-            {
-                title: "Blok 5: Działania pisemne na liczbach naturalnych",
-                theory: "<b>Ważne na konkursie:</b> Rozwiąż te zadania koniecznie na kartce papieru w słupku! Uważaj na pożyczanie przez zera.",
-                tasks: [
-                    { id: 12, text: "Oblicz pisemnie: 10005 - 3847", hint: "Pamiętaj o odpowiednim 'pożyczaniu' przez zera od jedynki z przodu.", answers: ["6158"] },
-                    { id: 13, text: "Oblicz pisemnie: 408 * 250", hint: "Wykonaj mnożenie 408 * 25 i dopisz na końcu jedno zero z liczby 250.", answers: ["102000", "102 000"] }
+                    { id: 11, text: "Oblicz: 14,85 + 27,4 =", hint: "Dopisz zero do drugiej liczby, aby wyrównać rzędy: 14,85 + 27,40. Dodawaj od końca, pamiętając o przecinku.", answers: ["42.25", "42,25"] },
+                    { id: 12, text: "Oblicz: 6,07 + 13,94 =", hint: "Podpisz równo pod sobą. 7 + 4 = 11 (1 dalej), 0 + 9 + 1 = 10 (1 dalej). Pamiętaj o przecinku we właściwym miejscu.", answers: ["20.01", "20,01"] },
+                    { id: 13, text: "Oblicz: 0,584 + 1,26 =", hint: "Dopisz zero na końcu drugiej liczby: 0,584 + 1,260. Dodaj liczby pisemnie.", answers: ["1.844", "1,844"] },
+                    { id: 14, text: "Oblicz: 45,9 + 7,15 =", hint: "Wyrównaj cyfry po przecinku: 45,90 + 7,15. Pamiętaj o poprawnym przenoszeniu dziesiątek.", answers: ["53.05", "53,05"] },
+                    { id: 15, text: "Oblicz: 128,34 + 84,7 =", hint: "Zmień drugą liczbę na 84,70. Podpisz uważnie pod sobą rzędy jedności, dziesiątek i części ułamkowych.", answers: ["213.04", "213,04"] },
+                    { id: 16, text: "Oblicz: 50,03 - 14,27 =", hint: "Pamiętaj o pożyczaniu od sąsiednich rzędów przez zera. Odejmuj pisemnie: 3 - 7 wymaga pożyczenia.", answers: ["35.76", "35,76"] },
+                    { id: 17, text: "Oblicz: 100,1 - 45,36 =", hint: "Dopisz zero do pierwszej liczby, aby móc odjąć: 100,10 - 45,36. Wykonaj odejmowanie z pożyczaniem.", answers: ["54.74", "54,74"] },
+                    { id: 18, text: "Oblicz: 7,004 - 2,815 =", hint: "Odejmuj uważnie cyfra po cyfrze od prawej do lewej, pożyczając od 7 na samym początku.", answers: ["4.189", "4,189"] },
+                    { id: 19, text: "Oblicz: 300,05 - 168,4 =", hint: "Dopisz zero do odjemnika: 300,05 - 168,40. Wykonaj starannie odejmowanie w słupku.", answers: ["131.65", "131,65"] },
+                    { id: 20, text: "Oblicz: 20,008 - 9,43 =", hint: "Wyrównaj liczbę miejsc po przecinku: 20,008 - 9,430. Odejmij w słupku.", answers: ["10.578", "10,578"] }
                 ]
             }
         ];
@@ -197,7 +191,6 @@
 
         // GENEROWANIE STRUKTURY Z PODZIAŁEM NA BLOKI
         sectionsData.forEach((section) => {
-            // Dodanie nagłówka sekcji
             container.innerHTML += `
                 <div class="section-header">
                     <h2>${section.title}</h2>
@@ -207,7 +200,6 @@
                 </div>
             `;
 
-            // Dodanie zadań z danej sekcji
             section.tasks.forEach((task) => {
                 totalTasksCount++;
                 resultsData[task.id] = "Nie rozwiązano"; 
