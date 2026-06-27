@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Szkolny Konkurs Matematyczny - Trening</title>
+    <title>Szkolny Konkurs Matematyczny - Wielki Trening Finałowy</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -112,7 +112,7 @@
     <div id="app-content">
         <div class="header-container">
             <h1>Szkolny Konkurs Matematyczny</h1>
-            <p class="description">Rozwiąż zadania przygotowawcze podzielone na tematy. Przeczytaj uważnie wskazówki teoretyczne przed każdą sekcją!</p>
+            <p class="description">Rozwiąż 30 wieloetapowych zadań przygotowawczych z matematyki. Przeczytaj uważnie wskazówki teoretyczne przed każdą sekcją!</p>
         </div>
 
         <div id="tasks-container"></div>
@@ -147,43 +147,63 @@
 
         const sectionsData = [
             {
-                title: "Blok 1: Kolejność działań",
-                theory: "<b>Ważne na konkursie:</b> Pamiętaj o kolejności wykonywania działań! Najpierw wykonujemy działania w nawiasach. Potem mnożenie i dzielenie w kolejności od lewej do prawej. Na końcu wykonujemy dodawanie i odejmowanie (również od lewej do prawej).",
+                title: "Blok 1: Logistyka, zapasy i zakupy (Działania całościowe)",
+                theory: "<b>Ważne na konkursie:</b> Pamiętaj o kolejności wykonywania działań i analizie reszty z dzielenia. Najpierw wykonujemy mnożenie i dzielenie, a dopiero potem dodawanie i odejmowanie.",
                 tasks: [
-                    { id: 1, text: "Oblicz: 35 + 6 * 3 =", hint: "Najpierw wykonaj mnożenie 6 * 3, a następnie dodaj wynik do 35.", answers: ["53"] },
-                    { id: 2, text: "Oblicz: (42 - 18) : 3 + 9 =", hint: "Najpierw wykonaj działanie w nawiasie (42 - 18), potem podziel wynik przez 3, a na końcu dodaj 9.", answers: ["17"] },
-                    { id: 3, text: "Oblicz: 54 : 6 * 3 =", hint: "Mnożenie i dzielenie są równorzędne. Wykonaj działania od lewej do prawej: najpierw dzielenie, potem mnożenie.", answers: ["27"] },
-                    { id: 4, text: "Oblicz: 60 - 4 * (15 - 7) + 5 =", hint: "Zacznij od nawiasu (15 - 7). Następnie pomnóż wynik przez 4. W kolejnym kroku wykonaj odejmowanie od 60 i na koniec dodaj 5.", answers: ["33"] },
-                    { id: 5, text: "Oblicz: 80 - 30 : 6 + 4 * 5 =", hint: "Najpierw wykonaj dzielenie (30 : 6) oraz mnożenie (4 * 5). Na końcu wykonaj odejmowanie i dodawanie od lewej do prawej.", answers: ["95"] }
+                    { id: 1, text: "Do szkolnego schroniska dla zwierząt zakupiono 8 paczek karmy dla psów po 5 kg każda oraz 6 paczek karmy dla kotów po 4 kg każda. Całą karmę postanowiono przepakować do mniejszych pojemników o pojemności 8 kg każdy. Ile takich pojemników uda się napełnić w całości?", hint: "Oblicz łączną wagę karmy dla psów i kotów (8 * 5 + 6 * 4), a następnie podziel wynik przez pojemność jednego pojemnika (8 kg).", answers: ["8"] },
+                    { id: 2, text: "Kierownik schroniska dostał 100 zł na przysmaki. Kupił 3 duże kości po 14 zł za sztukę oraz 4 zabawki po 11 zł za sztukę. Resztę pieniędzy wydał na małe paczki przysmaków po 4 zł za sztukę. Ile maksymalnie takich paczek dokupił?", hint: "Oblicz koszt kości i zabawek (3 * 14 + 4 * 11), odejmij go od 100 zł, a resztę podziel przez cenę jednej paczki przysmaków (4 zł).", answers: ["3"] },
+                    { id: 3, text: "W hurtowni spakowano 150 kg cukierków do dużych kartonów po 10 kg każdy. Do sklepu 'Słodzik' wysłano 7 takich kartonów, a resztę rozdzielono po równo pomiędzy 4 mniejsze sklepy. Ile kartonów otrzymał każdy z mniejszych sklepów?", hint: "Oblicz, ile kartonów przygotowano na początku (150 : 10), odejmij kartony dla pierwszego sklepu, a resztę podziel przez 4.", answers: ["2"] },
+                    { id: 4, text: "Tomek miał w skarbonce pięć banknoty po 20 zł. Kupił encyklopedię za 62 zł oraz dwa cyrkle po 8 zł każdy. Ile złotych reszty mu zostało? (Podaj samą liczbę)", hint: "Oblicz, ile pieniędzy miał Tomek na początku (5 * 20), następnie oblicz łączny koszt książki i dwóch cyrkli (62 + 2 * 8), a na końcu odejmij zakupy od kwoty początkowej.", answers: ["22"] },
+                    { id: 5, text: "Pani Barbara kupiła 3 kg jabłek po 4 zł za kilogram oraz 2 kg gruszek. Za wszystko zapłaciła banknotem 50 zł i otrzymała 22 zł reszty. Ile kosztował jeden kilogram gruszek? (Podaj samą liczbę)", hint: "Najpierw oblicz, ile kosztowały wszystkie zakupy (50 - 22). Potem odejmij od tego koszt jabłek (3 * 4). Otrzymany wynik podziel przez 2.", answers: ["8"] },
+                    { id: 6, text: "Klasa 4A zebrała 90 kg makulatury, a klasa 4B o 15 kg mniej. Całą makulaturę związano w paczki po 5 kg każda. Ile paczek makulatury zebrano łącznie? (Podaj samą liczbę)", hint: "Oblicz, ile kilogramów zebrała klasa 4B (90 - 15), dodaj wyniki obu klas, a całą masę podziel przez 5.", answers: ["33"] }
                 ]
             },
             {
-                title: "Blok 2: Różnorodne zadania tekstowe",
-                theory: "<b>Ważne na konkursie:</b> Przeczytaj uważnie treść zadania. Te zadania wymagają wykonania 2 lub 3 kroków. Najpierw ustal, co musisz obliczyć na samym początku, aby móc przejść do końcowego pytania.",
+                title: "Blok 2: Droga, czas, pojemność i wiek (Zadania życiowe)",
+                theory: "<b>Ważne na konkursie:</b> Przeczytaj uważnie treść zadań. Często musisz wykonać jedno działanie pomocnicze, aby poznać wartość potrzebną do ostatecznego kroku (np. wiek drugiej osoby lub odległość).",
                 tasks: [
-                    { id: 6, text: "W magazynie było 120 kg jabłek. Najpierw odrzucono 15 kg zepsutych owoców, a resztę spakowano do skrzynek po 7 kg każda. Ile skrzynek jabłek przygotowano? (Podaj samą liczbę)", hint: "Najpierw odejmij zepsute jabłka od całości (120 - 15). Następnie podziel otrzymany wynik przez wagę jednej skrzynki (7 kg).", answers: ["15"] },
-                    { id: 7, text: "Trzy jednakowe zeszyty kosztują łącznie 12 zł. Piórnik jest o 19 zł droższy od jednego takiego zeszytu. Ile złotych trzeba zapłacić za piórnik i jeden zeszyt razem? (Podaj samą liczbę)", hint: "Najpierw oblicz cenę jednego zeszytu (12 : 3). Potem dodaj 19 zł, aby dowiedzieć się, ile kosztuje piórnik. Na koniec zsumuj cenę piórnika i zeszytu.", answers: ["27"] },
-                    { id: 8, text: "Kasia ma 9 lat, a jej mama jest od niej o 27 lat starsza. Tata jest o 4 lata starszy od mamy. Ile lat ma tata Kasi? (Podaj samą liczbę)", hint: "Najpierw dodaj wiek Kasi i różnicę lat, aby poznać wiek mamy. Potem dodaj do wyniku 4 lata, aby dowiedzieć się, ile lat ma tata.", answers: ["40"] },
-                    { id: 9, text: "Rowerzysta w ciągu pierwszej godziny przejechał 14 km. W ciągu drugiej godziny przejechał o 3 km mindre niż w pierwszej, a w ciągu trzeciej godziny pokonał dwa razy krótką trasę niż w drugiej. Ile kilometrów przejechał rowerzysta w ciągu trzech godzin? (Podaj samą liczbę)", hint: "Działanie 1: oblicz dystans z drugiej godziny (14 - 3). Działanie 2: oblicz dystans z trzeciej godziny (wynik z 2. godziny podziel przez 2). Działanie 3: dodaj kilometry z trzech godzin.", answers: ["30"] },
-                    { id: 10, text: "Tomek miał w skarbonce cztery banknoty po 20 zł. Kupił grę planszową za 55 zł oraz sok za 6 zł. Ile złotych reszty mu zostało? (Podaj samą liczbę)", hint: "Najpierw oblicz, ile pieniędzy miał Tomek na początku (4 * 20 zł). Potem oblicz łączny koszt zakupów (55 + 6 zł). Na koniec odejmij koszt zakupów od początkowej kwoty.", answers: ["19"] },
-                    { id: 11, text: "Wojtek miał 90 klocków. Swojemu młodszemu bratu oddał 18 klocków, a pozostałe podzielił po równo do 8 pudełek. Ile klocków znalazło się w każdym pudełku? (Podaj samą liczbę)", hint: "Najpierw oblicz, ile klocków zostało Wojtkowi po oddaniu części bratu (90 - 18). Następnie tę liczbę podziel przez 8 pudełek.", answers: ["9"] },
-                    { id: 12, text: "Duża beczka zawiera 50 litrów wody, a mała baryłka mieści o 35 litrów mniej. W kanistrze jest 3 razy mniej wody niż w małej baryłce. Ile litrów wody mieści kanister? (Podaj samą liczbę)", hint: "Najpierw dowiedz się, ile litrów jest w małej baryłce (50 - 35). Następnie podziel ten wynik przez 3, aby poznać pojemność kanistra.", answers: ["5"] }
+                    { id: 7, text: "Rowerzysta w ciągu pierwszej godziny przejechał 16 km. W ciągu drugiej godziny przejechał o 4 km mniej niż w pierwszej, a w ciągu trzeciej godziny pokonał trasę dwa razy krótszą niż w drugiej. Ile kilometrów przejechał łącznie w ciągu tych trzech godzin? (Podaj samą liczbę)", hint: "Oblicz dystans z drugiej godziny (16 - 4), potem z trzeciej (wynik z drugiej podzielić przez 2), a na końcu zsumuj wyniki ze wszystkich trzech godzin.", answers: ["34"] },
+                    { id: 8, text: "Kasia ma 9 lat, a jej mama jest od niej o 27 lat starsza. Tata jest o 4 lata starszy od mamy. Ile lat ma tata Kasi? (Podaj samą liczbę)", hint: "Dodaj wiek Kasi i różnicę lat, aby poznać wiek mamy (9 + 27). Potem dodaj do wyniku 4 lata.", answers: ["40"] },
+                    { id: 9, text: "Duża beczka zawiera 60 litrów wody, a mała baryłka mieści o 45 litrów mindre. W kanistrze jest 3 razy mniej wody niż w małej baryłce. Ile litrów wody mieści kanister? (Podaj samą liczbę)", hint: "Dowiedz się, ile litrów jest w małej baryłce (60 - 45), a następnie podziel ten wynik przez 3.", answers: ["5"] },
+                    { id: 10, text: "Samochód osobowy spala 8 litrów paliwa na każde 100 km drogi. Kierowca zatankował do pełna 50 litrów. Po przejechaniu 400 km, ile litrów paliwa zostało jeszcze w baku? (Podaj samą liczbę)", hint: "Oblicz, ile litrów paliwa auto zużyło na dystansie 400 km (4 * 8 litrów), a następnie odejmij to od początkowego stanu baku (50).", answers: ["18"] },
+                    { id: 11, text: "Brat Marcina, Janek, jest o 6 lat starszy od Marcina, a ich najstarsza siostra Ola jest dwa razy starsza od Janka. Marcin obchodzi właśnie swoje 8. urodziny. Ile lat ma Ola? (Podaj samą liczbę)", hint: "Najpierw oblicz wiek Janka, dodając 6 lat do wieku Marcina (8 + 6). Następnie pomnóż wiek Janka przez 2.", answers: ["28"] },
+                    { id: 12, text: "Z jednego pełnego ula pszczelarz zebrał 24 litry miodu. Z drugiego zebrał o 6 litrów więcej, a z trzeciego 3 razy mniej niż z drugiego. Ile litrów miodu zebrał pszczelarz z trzeciego ula? (Podaj samą liczbę)", hint: "Oblicz ilość miodu z drugiego ula (24 + 6), a następnie podziel ten wynik przez 3.", answers: ["10"] }
                 ]
             },
             {
-                title: "Blok 3: Dodawanie i odejmowanie ułamków dziesiętnych",
-                theory: "<b>Ważne na konkursie:</b> Przy działaniach pisemnych na ułamkach dziesiętnych kluczowe jest podpisanie liczb <b>przecinek pod przecinkiem</b>! Jeśli liczby mają różną liczbę cyfr po przecinku, dopisz na końcu zera (np. 27,4 zamień na 27,40).",
+                title: "Blok 3: Projektowanie, obwody i bryły (Geometria)",
+                theory: "<b>Ważne na konkursie:</b> Kwadrat ma 4 równe boki, a prostokąt ma dwie pary boków o równej długości. Pamiętaj również, że sześcian oraz prostopadłościan posiadają dokładnie 12 krawędzi.",
                 tasks: [
-                    { id: 13, text: "Oblicz: 15,75 + 34,2 =", hint: "Dopisz zero do drugiej liczby, aby wyrównać rzędy: 15,75 + 34,20. Dodawaj od końca, pamiętając o przecinku.", answers: ["49.95", "49,95"] },
-                    { id: 14, text: "Oblicz: 7,04 + 15,88 =", hint: "Podpisz równo pod sobą. 4 + 8 = 12 (1 dalej), 0 + 8 + 1 = 9. Pamiętaj o przecinku we właściwym miejscu.", answers: ["22.92", "22,92"] },
-                    { id: 15, text: "Oblicz: 0,473 + 2,15 =", hint: "Dopisz zero na końcu drugiej liczby: 0,473 + 2,150. Dodaj liczby pisemnie.", answers: ["2.623", "2,623"] },
-                    { id: 16, text: "Oblicz: 56,8 + 6,35 =", hint: "Wyrównaj cyfry po przecinku: 56,80 + 6,35. Pamiętaj o poprawnym przenoszeniu dziesiątek.", answers: ["63.15", "63,15"] },
-                    { id: 17, text: "Oblicz: 137,45 + 75,8 =", hint: "Zmień drugą liczbę na 75,80. Podpisz uważnie pod sobą rzędy jedności, dziesiątek i części ułamkowych.", answers: ["213.25", "213,25"] },
-                    { id: 18, text: "Oblicz: 60,04 - 25,38 =", hint: "Pamiętaj o pożyczaniu od sąsiednich rzędów przez zera. Odejmuj pisemnie: 4 - 8 wymaga pożyczenia.", answers: ["34.66", "34,66"] },
-                    { id: 19, text: "Oblicz: 200,1 - 74,45 =", hint: "Dopisz zero do pierwszej liczby, aby móc odjąć: 200,10 - 74,45. Wykonaj odejmowanie z pożyczaniem.", answers: ["125.65", "125,65"] },
-                    { id: 20, text: "Oblicz: 8,003 - 3,724 =", hint: "Odejmuj uważnie cyfra po cyfrze od prawej do lewej, pożyczając od 8 na samym początku.", answers: ["4.279", "4,279"] },
-                    { id: 21, text: "Oblicz: 400,03 - 257,6 =", hint: "Dopisz zero do odjemnika: 400,03 - 257,60. Wykonaj starannie odejmowanie w słupku.", answers: ["142.43", "142,43"] },
-                    { id: 22, text: "Oblicz: 30,007 - 8,54 =", hint: "Wyrównaj liczbę miejsc po przecinku: 30,007 - 8,540. Odejmij w słupku.", answers: ["21.467", "21,467"] }
+                    { id: 13, text: "Architekt projektuje plac zabaw w kształcie prostokąta o wymiarach 12 metrów na 8 metrów. Wewnątrz placu chce wydzielić kwadratowy ogrodzony wybieg o boku 4 metrów. O ile metrów obwód całego placu zabaw jest większy od obwodu małego wybiegu? (Podaj samą liczbę)", hint: "Oblicz obwód prostokąta (2 * 12 + 2 * 8) oraz obwód kwadratu (4 * 4), a na koniec odejmij mniejszy obwód od większego.", answers: ["24"] },
+                    { id: 14, text: "Na placu zabaw stanie drewniana konstrukcja w kształcie prostopadłościanu o wymiarach 3 m x 2 m x 4 m. Cieśla musi wzmocnić wszystkie krawędzie konstrukcji metalową taśmą, która jest sprzedawana w rolkach po 10 metrów. Ile całych rolek taśmy musi kupić cieśla?", hint: "Prostopadłościan ma po 4 krawędzie każdego z trzech wymiarów. Oblicz sumę wszystkich krawędzi (4 * 3 + 4 * 2 + 4 * 4) i sprawdź, ile rolek 10-metrowych pokryje tę długość.", answers: ["4"] },
+                    { id: 15, text: "Prostokątna działka ma szerokość 15 metrów, a jej długość jest o 10 metrów większa od szerokości. Wokół działki postawiono płot, ale zostawiono przerwę o szerokości 3 metrów na bramę wjazdową. Ile metrów płotu postawiono? (Podaj samą liczbę)", hint: "Oblicz długość działki (15 + 10 = 25), wyznacz pełny obwód tego prostokąta (2 * 15 + 2 * 25) i na końcu odejmij 3 metry.", answers: ["77"] },
+                    { id: 16, text: "Drut o długości 60 cm rozcięto na dwie części. Z pierwszej części ułożono kwadrat o boku 7 cm. Z pozostałego drutu ułożono drugi kwadrat. Ile centymetrów wynosi bok drugiego kwadratu? (Podaj samą liczbę)", hint: "Oblicz drut zużyty na pierwszy kwadrat (4 * 7). Odejmij to od 60 cm, a pozostałą część podziel przez 4, aby otrzymać bok drugiego kwadratu.", answers: ["8"] },
+                    { id: 17, text: "Klasa przygotowała makietę zamku. Użyto do niej dwóch modeli sześcianów: małego o krawędzi 3 cm oraz dużego o krawędzi 6 cm. O ile centymetrów suma długości wszystkich krawędzi dużego sześcianu jest większa od sumy krawędzi małego? (Podaj samą liczbę)", hint: "Każdy sześcian ma 12 krawędzi. Oblicz sumę krawędzi dużego (12 * 6) i małego sześcianu (12 * 3), a potem je odejmij.", answers: ["36"] },
+                    { id: 18, text: "Trawnik wokół fontanny ma kształt kwadratu o obwodzie 36 metrów. Ogrodnik postanowił powiększyć ten trawnik, wydłużając każdy jego bok o 2 metry. Jaki jest obwód nowego, większego trawnika? (Podaj samą liczbę)", hint: "Najpierw znajdź długość starego boku (36 : 4). Dodaj do niego 2 metry, a nowy bok pomnóż przez 4.", answers: ["44"] }
+                ]
+            },
+            {
+                title: "Blok 4: Pomiary, płyny i eksperymenty (Ułamki dziesiętne)",
+                theory: "<b>Ważne na konkursie:</b> Przy dodawaniu i odejmowaniu ułamków dziesiętnych podpisuj liczby <b>przecinek pod przecinkiem</b>! W razie potrzeby dopisz zera na końcu liczby (np. 1,3 zamień na 1,30).",
+                tasks: [
+                    { id: 19, text: "Młody chemik przeprowadzał doświadczenie. W pierwszej probówce miał 0,45 litra płynu, w drugiej o 0,2 litra więcej niż w pierwszej, a w trzeciej o 0,15 litra mniej niż w drugiej. Ile płynu było w trzeciej probówce? (Wpisz z przecinkiem lub kropką)", hint: "Druga probówka: 0,45 + 0,20 = 0,65 litra. Trzecia probówka: 0,65 - 0,15 = 0,50 litra.", answers: ["0.5", "0,5", "0.50", "0,50"] },
+                    { id: 20, text: "Chemik zlał płyn z pierwszej i drugiej probówki (0,45 l oraz 0,65 l) do jednego naczynia o pojemności 1,5 litra. Następnie dolał tam jeszcze 0,55 litra soku. Czy płyn zmieścił się w naczyniu? Jeśli nie, to ile litrów płynu się wylało? (Jeśli się zmieścił, wpisz 0, jeśli się wylał, wpisz nadmiar)", hint: "Zsumuj objętości trzech płynów: 0,45 + 0,65 + 0,55 = 1,65 litra. Odejmij od tego pojemność naczynia (1,50 l).", answers: ["0.15", "0,15"] },
+                    { id: 21, text: "Z wielkiej szpuli krawiec odciął najpierw 4,85 metra materiału, a za drugim razem o 1,3 metra mniej niż za pierwszym. Na szpuli zostało jeszcze 12,4 metra materiału. Ile metrów materiału było na szpuli na samym początku?", hint: "Oblicz długość drugiego kawałka (4,85 - 1,30 = 3,55 m). Dodaj do siebie oba odcięte kawałki oraz materiał, który pozostał na szpuli (4,85 + 3,55 + 12,40).", answers: ["20.8", "20,8", "20.80", "20,80"] },
+                    { id: 22, text: "Waga pustego plecaka wynosi 0,75 kg. Wojtek zapakował do niego książki o wadze 3,4 kg oraz drugie śniadanie. Po zważeniu okazało się, że pełny plecak waży 4,65 kg. Ile ważyło drugie śniadanie Wojtka? (Podaj samą liczbę w kg)", hint: "Oblicz łączną wagę pustego plecaka i książek (0,75 + 3,40 = 4,15 kg). Odejmij ten wynik od końcowej wagi całego plecaka (4,65 - 4,15).", answers: ["0.5", "0,5", "0.50", "0,50"] },
+                    { id: 23, text: "Trzy paczki kurierskie ważą łącznie 15,8 kg. Pierwsza paczka waży 4,25 kg, a druga jest o 1,9 kg cięższa od pierwszej. Ile kilogramów waży trzecia paczka?", hint: "Najpierw oblicz wagę drugiej paczki (4,25 + 1,90 = 6,15 kg). Zsumuj wagę pierwszej i drugiej paczki (4,25 + 6,15 = 10,40 kg), a wynik odejmij od łącznej masy (15,80 kg).", answers: ["5.4", "5,4", "5.40", "5,40"] },
+                    { id: 24, text: "Na początku czerwca roślina mierzyła 14,25 cm. W pierwszym tygodniu urosła o 2,4 cm, a w drugim tygodniu o 1,85 cm. Niestety w trzecim tygodniu kot złamał czubek rośliny i zmniejszyła się ona o 3,1 cm. Ile centymetrów mierzy roślina po tych wydarzeniach?", hint: "Dodaj przyrosty do początkowej wysokości (14,25 + 2,40 + 1,85 = 18,50 cm), a od otrzymanego wyniku odejmij ułamaną część (3,10 cm).", answers: ["15.4", "15,4", "15.40", "15,40"] }
+                ]
+            },
+            {
+                title: "Blok 5: Równania, sekwencje i myślenie logiczne",
+                theory: "<b>Ważne na konkursie:</b> W zadaniach typu 'pomyślałem liczbę...' najwygodniej jest wykonywać działania w odwrotnej kolejności (np. zamiast odejmowania wykonujemy dodawanie).",
+                tasks: [
+                    { id: 25, text: "Pomyślałem pewną liczbę. Jeśli pomnożę ją przez 6, a od iloczynu odejmę 14, to otrzymam wynik 40. Jaką liczbę pomyślałem? (Podaj samą liczbę)", hint: "Rozwiązuj zadanie od końca, wykonując działania odwrotne: do wyniku 40 dodaj 14 (54), a otrzymaną sumę podziel przez 6.", answers: ["9"] },
+                    { id: 26, text: "W trzech pudełkach było razem 45 kredek. W drugim pudełku było o 5 kredek więcej niż w pierwszym. Wiemy, że w pierwszym pudełku było dokładnie 12 kredek. Ile kredek znajdowało się w trzecim pudełku? (Podaj samą liczbę)", hint: "Oblicz liczbę kredek v drugim pudełku (12 + 5 = 17). Zsumuj kredki z pierwszego i drugiego pudełka (12 + 17 = 29), a wynik odejmij od 45.", answers: ["16"] },
+                    { id: 27, text: "Jeśli do nieznanej liczby dodasz 25, a otrzymany wynik podzielisz przez 4, to otrzymasz liczbę 12. Jaka to liczba?", hint: "Zastosuj metodę działań odwrotnych: pomnóż 12 przez 4 (48), a następnie od wyniku odejmij 25.", answers: ["23"] },
+                    { id: 28, text: "Ania, Bartek i Czarek zbierali punkty w konkursie. Ania zdobyła 32 punkty. Bartek zdobył dwa razy mniej punktów niż Ania. Czarek zdobył o 15 punktów więcej niż Bartek. Ile punktów zdobył Czarek? (Podaj samą liczbę)", hint: "Najpierw oblicz punkty Bartka (32 : 2 = 16), a następnie dodaj do nich 15 punktów, aby dowiedzieć się, ile zdobył Czarek.", answers: ["31"] },
+                    { id: 29, text: "Na trzech gałęziach siedziało razem 30 wróbli. Gdy z pierwszej gałęzi odleciały 3 wróble, na każdej z trzech gałęzi zostało tyle samo ptaków. Ile wróbli siedziało na pierwszej gałęzi na samym początku?", hint: "Odejmij 3 ptaki od łącznej liczby 30 (zostaje 27). Otrzymany wynik podziel przez 3, aby dowiedzieć się, ile ptaków zostało na każdej gałęzi (9). Na koniec dodaj odlatujące 3 ptaki do pierwszej gałęzi.", answers: ["12"] },
+                    { id: 30, text: "Ewa rozłożyła cukierki na 4 talerzyki po 8 sztuk na każdym, ale zostało jej jeszcze 8 cukierków w dłoni. Chciała rozłożyć wszystkie posiadane cukierki tak, aby na każdym talerzyku było ich po równo i nie zostało nic w dłoni. Ile cukierków ostatecznie znajdzie się na każdym talerzyku?", hint: "Oblicz, ile cukierków miała Ewa łącznie (4 * 8 + 8 = 40). Następnie tę całkowitą liczbę podziel ponownie przez 4 talerzyki.", answers: ["10"] }
                 ]
             }
         ];
