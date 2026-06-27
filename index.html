@@ -102,8 +102,8 @@
         <div class="modal-content">
             <h2>Witaj! 👋</h2>
             <p>Przed rozpoczęciem treningu wpisz swoje dane:</p>
-            <input type="text" id="student-name" placeholder="Imię i nazwisko" required>
-            <input type="text" id="student-class" placeholder="Klasa (np. 4A)" required>
+            <input type="text" id="student-name" placeholder="Imię i nazwisko" required onkeydown="if(event.key === 'Enter') startTest()">
+            <input type="text" id="student-class" placeholder="Klasa (np. 4A)" required onkeydown="if(event.key === 'Enter') startTest()">
             <button onclick="startTest()">Rozpocznij trening</button>
             <p id="modal-error" style="color: red; font-size: 0.9em; display: none;">Proszę wypełnić wszystkie pola!</p>
         </div>
@@ -112,7 +112,7 @@
     <div id="app-content">
         <div class="header-container">
             <h1>Szkolny Konkurs Matematyczny</h1>
-            <p class="description">Rozwiąż 30 wieloetapowych zadań przygotowawczych z matematyki. Przeczytaj uważnie wskazówki teoretyczne przed każdą sekcją!</p>
+            <p class="description">Rozwiąż 30 wieloetapowych zadań przygotowawcze z matematyki. Możesz zatwierdzić odpowiedź klikając 'Sprawdź' lub naciskając klawisz <b>Enter</b>!</p>
         </div>
 
         <div id="tasks-container"></div>
@@ -164,7 +164,7 @@
                 tasks: [
                     { id: 7, text: "Rowerzysta w ciągu pierwszej godziny przejechał 16 km. W ciągu drugiej godziny przejechał o 4 km mniej niż w pierwszej, a w ciągu trzeciej godziny pokonał trasę dwa razy krótszą niż w drugiej. Ile kilometrów przejechał łącznie w ciągu tych trzech godzin? (Podaj samą liczbę)", hint: "Oblicz dystans z drugiej godziny (16 - 4), potem z trzeciej (wynik z drugiej podzielić przez 2), a na końcu zsumuj wyniki ze wszystkich trzech godzin.", answers: ["34"] },
                     { id: 8, text: "Kasia ma 9 lat, a jej mama jest od niej o 27 lat starsza. Tata jest o 4 lata starszy od mamy. Ile lat ma tata Kasi? (Podaj samą liczbę)", hint: "Dodaj wiek Kasi i różnicę lat, aby poznać wiek mamy (9 + 27). Potem dodaj do wyniku 4 lata.", answers: ["40"] },
-                    { id: 9, text: "Duża beczka zawiera 60 litrów wody, a mała baryłka mieści o 45 litrów mindre. W kanistrze jest 3 razy mniej wody niż w małej baryłce. Ile litrów wody mieści kanister? (Podaj samą liczbę)", hint: "Dowiedz się, ile litrów jest w małej baryłce (60 - 45), a następnie podziel ten wynik przez 3.", answers: ["5"] },
+                    { id: 9, text: "Duża beczka zawiera 60 litrów wody, a mała baryłka mieści o 45 litrów mniej. W kanistrze jest 3 razy mniej wody niż w małej baryłce. Ile litrów wody mieści kanister? (Podaj samą liczbę)", hint: "Dowiedz się, ile litrów jest w małej baryłce (60 - 45), a następnie podziel ten wynik przez 3.", answers: ["5"] },
                     { id: 10, text: "Samochód osobowy spala 8 litrów paliwa na każde 100 km drogi. Kierowca zatankował do pełna 50 litrów. Po przejechaniu 400 km, ile litrów paliwa zostało jeszcze w baku? (Podaj samą liczbę)", hint: "Oblicz, ile litrów paliwa auto zużyło na dystansie 400 km (4 * 8 litrów), a następnie odejmij to od początkowego stanu baku (50).", answers: ["18"] },
                     { id: 11, text: "Brat Marcina, Janek, jest o 6 lat starszy od Marcina, a ich najstarsza siostra Ola jest dwa razy starsza od Janka. Marcin obchodzi właśnie swoje 8. urodziny. Ile lat ma Ola? (Podaj samą liczbę)", hint: "Najpierw oblicz wiek Janka, dodając 6 lat do wieku Marcina (8 + 6). Następnie pomnóż wiek Janka przez 2.", answers: ["28"] },
                     { id: 12, text: "Z jednego pełnego ula pszczelarz zebrał 24 litry miodu. Z drugiego zebrał o 6 litrów więcej, a z trzeciego 3 razy mniej niż z drugiego. Ile litrów miodu zebrał pszczelarz z trzeciego ula? (Podaj samą liczbę)", hint: "Oblicz ilość miodu z drugiego ula (24 + 6), a następnie podziel ten wynik przez 3.", answers: ["10"] }
@@ -199,7 +199,7 @@
                 theory: "<b>Ważne na konkursie:</b> W zadaniach typu 'pomyślałem liczbę...' najwygodniej jest wykonywać działania w odwrotnej kolejności (np. zamiast odejmowania wykonujemy dodawanie).",
                 tasks: [
                     { id: 25, text: "Pomyślałem pewną liczbę. Jeśli pomnożę ją przez 6, a od iloczynu odejmę 14, to otrzymam wynik 40. Jaką liczbę pomyślałem? (Podaj samą liczbę)", hint: "Rozwiązuj zadanie od końca, wykonując działania odwrotne: do wyniku 40 dodaj 14 (54), a otrzymaną sumę podziel przez 6.", answers: ["9"] },
-                    { id: 26, text: "W trzech pudełkach było razem 45 kredek. W drugim pudełku było o 5 kredek więcej niż w pierwszym. Wiemy, że w pierwszym pudełku było dokładnie 12 kredek. Ile kredek znajdowało się w trzecim pudełku? (Podaj samą liczbę)", hint: "Oblicz liczbę kredek v drugim pudełku (12 + 5 = 17). Zsumuj kredki z pierwszego i drugiego pudełka (12 + 17 = 29), a wynik odejmij od 45.", answers: ["16"] },
+                    { id: 26, text: "W trzech pudełkach było razem 45 kredek. W drugim pudełku było o 5 kredek więcej niż w pierwszym. Wiemy, że w pierwszym pudełku było dokładnie 12 kredek. Ile kredek znajdowało się w trzecim pudełku? (Podaj samą liczbę)", hint: "Oblicz liczbę kredek w drugim pudełku (12 + 5 = 17). Zsumuj kredki z pierwszego i drugiego pudełka (12 + 17 = 29), a wynik odejmij od 45.", answers: ["16"] },
                     { id: 27, text: "Jeśli do nieznanej liczby dodasz 25, a otrzymany wynik podzielisz przez 4, to otrzymasz liczbę 12. Jaka to liczba?", hint: "Zastosuj metodę działań odwrotnych: pomnóż 12 przez 4 (48), a następnie od wyniku odejmij 25.", answers: ["23"] },
                     { id: 28, text: "Ania, Bartek i Czarek zbierali punkty w konkursie. Ania zdobyła 32 punkty. Bartek zdobył dwa razy mniej punktów niż Ania. Czarek zdobył o 15 punktów więcej niż Bartek. Ile punktów zdobył Czarek? (Podaj samą liczbę)", hint: "Najpierw oblicz punkty Bartka (32 : 2 = 16), a następnie dodaj do nich 15 punktów, aby dowiedzieć się, ile zdobył Czarek.", answers: ["31"] },
                     { id: 29, text: "Na trzech gałęziach siedziało razem 30 wróbli. Gdy z pierwszej gałęzi odleciały 3 wróble, na każdej z trzech gałęzi zostało tyle samo ptaków. Ile wróbli siedziało na pierwszej gałęzi na samym początku?", hint: "Odejmij 3 ptaki od łącznej liczby 30 (zostaje 27). Otrzymany wynik podziel przez 3, aby dowiedzieć się, ile ptaków zostało na każdej gałęzi (9). Na koniec dodaj odlatujące 3 ptaki do pierwszej gałęzi.", answers: ["12"] },
@@ -233,7 +233,7 @@
                     <div class="task-card" id="card${task.id}">
                         <div class="task-text"><strong>${task.id}.</strong> ${task.text}</div>
                         <div class="input-group">
-                            <input type="text" id="input${task.id}" placeholder="Wpisz odpowiedź...">
+                            <input type="text" id="input${task.id}" placeholder="Wpisz odpowiedź..." onkeydown="if(event.key === 'Enter') checkAnswer(${task.id}, 'input${task.id}', 'card${task.id}', 'feedback${task.id}', ${answersJson}, 'btn-answer${task.id}')">
                             <button onclick="checkAnswer(${task.id}, 'input${task.id}', 'card${task.id}', 'feedback${task.id}', ${answersJson}, 'btn-answer${task.id}')">Sprawdź</button>
                             <button class="btn-hint" onclick="document.getElementById('hint${task.id}').style.display='block'">Podpowiedź</button>
                             
